@@ -82,3 +82,30 @@
 		git log --pretty=oneline
 
 		git log --pretty=format:"%h %s" --graph   可以显示图表分支的外观
+
+
+	10.  恢复操作
+		git checkout 版本号  文件名       //把指定文件恢复成某版本号的
+		git reset --hard 版本号	   //把指定版本恢复到工作区
+		git reset --hard HEAD^             //恢复到前一个版本
+		git reset --hard HEAD~2           //恢复到前2个版本
+
+		git reflog 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
+		git log 命令可以显示所有提交过的版本信息
+
+		git reset HEAD 是从暂存区撤销到工作区，就是git add的操作撤销
+
+	11.  git remote 查看远程默认仓库名
+	       git remote -v   查看远程默认仓库名已经URL名称
+
+		
+
+
+
+
+
+
+
+
+
+
