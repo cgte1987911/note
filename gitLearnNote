@@ -100,6 +100,15 @@
 	 
 	       git push origin master    本地版本库提交到远程
 
+	
+	12.  拉取github上的更新
+		  git fetch  先把远端的拉下来
+		      >>Git diff master origin/master 查看本地和远端的不同
+		      >>Git merge origin/master 以冲突的形式合并到一起
+		      >>自己解决修改冲突
+  		      >>然后再git push 提交到远端		
+		  git pull 相当于git fetch和git merge
+
 		
 
 
