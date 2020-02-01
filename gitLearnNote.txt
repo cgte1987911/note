@@ -1,0 +1,122 @@
+1。
+	
+	1.  当安装完 Git 应该做的第一件事就是设置你的用户名称与邮件地址
+		git config --global user.name "John Doe"
+		git config --global user.email johndoe@example.com
+
+	2.  修改默认文本编辑器
+		git config --global core.editor vscode
+
+	3.  如果想要检查你的配置，可以使用 git config --list 命令来列出所有 Git 当时能找到的配置
+
+	4.  你可以通过输入 git config <key>： 来检查 Git 的某一项配置。例如：
+		$  git config user.name
+		   ltf
+	
+	5.  也可以修改.git文件夹里面的config文件来修改配置
+
+2。
+
+	1.  想让你的项目被git来管理，只需要进入你项目的根目录，然后键入命令：git init
+
+	2.  你可通过 git add 命令来实现对指定文件的跟踪，然后执行 git commit 提交：
+		$ git add *.c
+		$ git add LICENSE
+		$ git commit -m 'initial project version'
+
+	3.  克隆远程仓库命令：
+		git clone https://github.com/cgte1987911/githubUse.git
+
+	4.  要查看哪些文件处于什么状态，可以用 git status 命令
+		 如果你使用 git status -s 命令或 git status --short 命令，你将得到一种更为紧凑的格式输出
+		 $ git status -s
+		    M README					 //出现在右边的 M 表示该文件被修改了但是还没放入暂存区
+		   MM Rakefile					 //在工作区被修改并提交到暂存区后又在工作区中被修改了，所以在暂存区和工作区都有该文件被修改了的记录
+		   A lib/git.rb					 //新添加到暂存区中的文件前面有 A 标记
+		   M lib/simplegit.rb            //出现在靠左边的 M 表示该文件被修改了并放入了暂存区
+		   ?? LICENSE.txt                //新添加的未跟踪文件前面有 ?? 标记
+
+	5.  我们可以创建一个名为 .gitignore的文件，列出要忽略的文件模式。 来看一个实际的例子：
+		$ cat .gitignore
+			*.[oa]                       //忽略所有以 .o 或 .a 结尾的文件
+			*~							 //忽略所有以波浪符（~）结尾的文件
+
+		再来个例子：
+		# no .a files
+		*.a
+		# but do track lib.a, even though you're ignoring .a files above
+		!lib.a
+		# only ignore the TODO file in the current directory, not subdir/TODO
+		/TODO
+		# ignore all files in the build/ directory
+		build/
+		# ignore doc/notes.txt, but not doc/server/arch.txt
+		doc/*.txt
+		# ignore all .pdf files in the doc/ directory
+		doc/**/*.pdf
+
+	6.  要查看尚未暂存的文件更新了哪些部分，不加参数直接输入 git diff：
+
+		若要查看已暂存的将要添加到下次提交里的内容，可以用 git diff --cached 命令。（Git 1.6.1 及更高版本
+		还允许使用 git diff --staged，效果是相同的，但更好记些。）
+
+	7.  git rm  从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交
+
+		如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f
+
+		另外一种情况是，我们想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录
+		中。 换句话说，你想让文件保留在磁盘，但是并不想让 Git 继续跟踪。 当你忘记添加 .gitignore 文件，不小
+		心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。 为达到这一目
+		的，使用 --cached 选项 例如： git rm --cached README
+
+	8.  运行 git mv 就相当于运行了下面三条命令：
+		$ mv README.md README
+		$ git rm README.md
+		$ git add README
+
+	9.  git log 会按提交时间列出所有的更新，最近的更新排在最上面。 正如你所看到的，
+		这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明
+
+		一个常用的选项是 -p，用来显示每次提交的内容差异。 你也可以加上 -2 来仅显示最近两次提交
+
+		git log --pretty=oneline
+
+		git log --pretty=format:"%h %s" --graph   可以显示图表分支的外观
+
+
+	10.  恢复操作
+		git checkout 版本号  文件名       //把指定文件恢复成某版本号的
+		git reset --hard 版本号	   //把指定版本恢复到工作区
+		git reset --hard HEAD^             //恢复到前一个版本
+		git reset --hard HEAD~2           //恢复到前2个版本
+
+		git reflog 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
+		git log 命令可以显示所有提交过的版本信息
+
+		git reset HEAD 是从暂存区撤销到工作区，就是git add的操作撤销
+
+	11.  git remote 查看远程默认仓库名
+	       git remote -v   查看远程默认仓库名已经URL名称
+	 
+	       git push origin master    本地版本库提交到远程
+
+	
+	12.  拉取github上的更新
+		  git fetch  先把远端的拉下来
+		      >>Git diff master origin/master 查看本地和远端的不同
+		      >>Git merge origin/master 以冲突的形式合并到一起
+		      >>自己解决修改冲突
+  		      >>然后再git push 提交到远端		
+		  git pull 相当于git fetch和git merge
+
+		
+
+
+
+
+
+
+
+
+
+
