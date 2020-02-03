@@ -9,7 +9,8 @@
 ​							精确类型判断（只包括子级，不包括父级）
 
 ```js
-let oDiv=document.getElementById('div1')							alert(oDiv.constructor==HTMLDivElement);//检测是否是div
+let oDiv=document.getElementById('div1')
+alert(oDiv.constructor==HTMLDivElement);//检测是否是div
 alert(oDiv instanceof HTMLDivElement)
 ```
 
