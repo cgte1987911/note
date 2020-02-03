@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+       class HotList{
+           constructor(title='',data=[]){
+               this.title=title;
+               this.data=data;
+           }
+
+           setTitle(title){
+               this.title=title;
+           }
+           getTitle(){
+               return this.title;
+           }
+           setData(data){
+               this.data=data;
+           }
+           getData(data){
+               return this.data;
+           }
+
+           render(){
+               let div=document.createElement('div');
+               let ul=document.createElement('ul');
+
+               this.data.forEach(data=>{
+                   arr.push(`
+                    <li class="row">
+                        <a href="${data.href}" class="cver">
+                            <img src="${data.avatar}" alt="">
+                        </a>
+                        <div class="info">
+                            <p class="row aic">
+                                <a href="${data.href}" class="nm-icn">${data.name}</a> 
+                                ${data.vip?'<img src="" alt="">':''}
+                            </p>
+                            <p class="label">${data.title}</p>
+                        </div>
+                    </li>
+                   `)
+               })
+               
+               ul.innerHTML=arr.join('');
+           }
+       }
+
+       let list=new HotList('热门主播',[])
+    </script>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+</html>
