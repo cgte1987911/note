@@ -1,59 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script>
-       class HotList{
-           constructor(title='',data=[]){
-               this.title=title;
-               this.data=data;
-           }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>智能社</title>
+  <style>
 
-           setTitle(title){
-               this.title=title;
-           }
-           getTitle(){
-               return this.title;
-           }
-           setData(data){
-               this.data=data;
-           }
-           getData(data){
-               return this.data;
-           }
+  body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
 
-           render(){
-               let div=document.createElement('div');
-               let ul=document.createElement('ul');
+body,
+button,
+input,
+select,
+textarea {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
 
-               this.data.forEach(data=>{
-                   arr.push(`
-                    <li class="row">
-                        <a href="${data.href}" class="cver">
-                            <img src="${data.avatar}" alt="">
-                        </a>
-                        <div class="info">
-                            <p class="row aic">
-                                <a href="${data.href}" class="nm-icn">${data.name}</a> 
-                                ${data.vip?'<img src="" alt="">':''}
-                            </p>
-                            <p class="label">${data.title}</p>
-                        </div>
-                    </li>
-                   `)
-               })
-               
-               ul.innerHTML=arr.join('');
-           }
-       }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
 
-       let list=new HotList('热门主播',[])
-    </script>
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.row {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.column {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+}
+
+.jcc {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.jcsa {
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+}
+
+.jcsb {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.aic {
+  align-items: center;
+  -webkit-align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.fww {
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+.hot-host {
+  padding: 0 20px;
+  width: 250px;
+  margin: 0 auto;
+  font-size: 12px;
+  margin-top: 200px;
+}
+
+.hot-host .v-hd {
+  position: relative;
+  height: 23px;
+  border-bottom: 1px solid #ccc;
+  color: #333;
+}
+
+.hot-host .user-list {
+  margin-top: 20px;
+}
+
+.hot-host .user-list li {
+  height: 50px;
+}
+
+.hot-host .user-list .cver {
+  margin-right: 10px;
+}
+
+.hot-host .user-list .info .nm-icn {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  color: #333;
+}
+
+.hot-host .user-list .info img {
+  height: 13px;
+}
+
+.hot-host .user-list .info .label {
+  color: #666;
+  line-height: 21px;
+}
+  </style>
+
+  
+<script>
+function assert(reg, msg){
+  if(!reg){
+    throw new Error(msg);
+  }
+}
+
+</script>
 </head>
+
 <body>
-    <div id="div1"></div>
+  <div class="hot-host">
+  </div>
+
+  <script>
+  class HotList {
+    //parent自动判断
+    constructor(parent, title='', data=[]) {
+      assert(parent, 'parent必须有');
+      assert(typeof title=='string', 'title不是一个字符串');
+      assert(data instanceof Array, 'data必须是一个数组');
+
+      this.parent=parent;
+      this.title=title;
+      this.data=data;
+
+      this.render();
+    }
+
+    setTitle(title){
+      this.title=title;
+      this.render();
+    }
+    getTitle(){
+      return this.title;
+    }
+
+    setData(data){
+      this.data=data;
+      this.render();
+    }
+    getData(){
+      return this.data;
+    }
+
+    render(){
+      let div=document.createElement('div');
+      div.className='v-hd';
+      div.innerHTML=this.title;
+
+      let ul=document.createElement('ul');
+      ul.className='user-list';
+
+      let arr=[];
+      this.data.forEach(data=>{
+        arr.push(`
+          <li class="row">
+            <a href="${data.href}" class="cver">
+              <img src="${data.avatar}" alt="">
+            </a>
+            <div class="info">
+              <p class="row aic">
+                <a href="${data.href}" class="nm-icn">${data.name}</a>
+                ${data.vip?'<img src="./img/vip.png" alt="">':''}
+              </p>
+              <p class="label">${data.title}</p>
+            </div>
+          </li>
+        `);
+      });
+      ul.innerHTML=arr.join('');
+
+      //
+      this.parent.innerHTML='';
+      this.parent.appendChild(div);
+      this.parent.appendChild(ul);
+    }
+  }
+
+  let hot=document.querySelector('.hot-host');
+  let list=new HotList(hot, '热门主播', [
+    {
+      name: 'blue',
+      href: 'http://www.zhinengshe.com/',
+      avatar: 'img/1407374893913311.jpg',
+      vip: false,
+      title: '打杂的'
+    },
+    {
+      name: 'blue2',
+      href: 'http://www.zhinengshe.com/',
+      avatar: 'img/1407374893913311.jpg',
+      vip: false,
+      title: '打杂的2'
+    },
+    {
+      name: 'blue3',
+      href: 'http://www.zhinengshe.com/',
+      avatar: 'img/1407374893913311.jpg',
+      vip: false,
+      title: '打杂的3'
+    }
+  ]);
+  </script>
 </body>
+
 </html>
