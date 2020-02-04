@@ -15,6 +15,11 @@
 	
 	5.  也可以修改.git文件夹里面的config文件来修改配置
 
+	6.  中文文件名乱码（git status、git log、git pull 、git push）
+		git config --global core.quotepath false
+
+
+
 2。
 
 	1.  想让你的项目被git来管理，只需要进入你项目的根目录，然后键入命令：git init
