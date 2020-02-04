@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    .dialog {width:400px; height:300px; margin:10px auto; border:1px solid black;}
+    </style>
+  </head>
+  <body>
+    <div id="div1">
+      <div class="">
+        adfasdfsad
+      </div>
+      <Cmp1 click="fn"></Cmp1>
+      <Cmp1></Cmp1>
+      <UserLogin></UserLogin>
+    </div>
+
+    <script>
+    //html元素->组件
+    function render(options){
+      //1.root搞定
+      let root=null;
+      if(typeof options.root=='string'){
+        root=document.querySelector(options.root);
+
+        if(!root){
+          throw new Error(`can't found ${options.root}`);
+        }
+      }else if(options.root instanceof HTMLElement){
+        root=options.root;
+      }else{
+        throw new Error('root invaild');
+      }
+
+      //2.找出所有自定义元素
+      let elements=root.getElementsByTagName('*');
+
+      Array.from(elements).forEach(element=>{
+        if(element.constructor==HTMLUnknownElement){
+          for(let cmpName in options.components){
+            if(cmpName.toLowerCase()==element.tagName.toLowerCase()){
+              let CmpCls=options.components[cmpName];
+
+              let cmp=new CmpCls();
+              let res=cmp.render();
+
+              element.parentNode.replaceChild(res, element);
+            }
+          }
+        }
+      });
+    }
+
+
+    //抽象的
+    class Component{
+      render(){
+        throw new Error(`render is required`);
+      }
+    }
+
+
+
+
+
+    class Cmp1 extends Component{
+      render(){
+        let div=document.createElement('div');
+        div.innerHTML='我是cmp1';
+
+        return div;
+      }
+    }
+
+    class UserLogin extends Component{
+      render(){
+        let div=document.createElement('div');
+        div.className="dialog";
+        div.innerHTML='dsfasdfsd';
+
+        return div;
+      }
+    }
+
+
+
+
+
+
+
+    render({
+      root: '#div1',
+      components: {
+        Cmp1, UserLogin
+      },
+      methods: {
+        fn(){
+          alert('a');
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
