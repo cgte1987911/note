@@ -69,3 +69,97 @@ var s = {show:function(a){alert(this)}};
 s.show()//[object Object]
 o.show(s.show)//[object Window]
 ```
+
+### 3.高阶类的应用
+
+HOC高阶类：
+1.在父类中使用子类才有的东西
+2.类写完不直接用——包裹一下
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/Store.js" charset="utf-8"></script>
+    <script src="js/A.js" charset="utf-8"></script>
+    <script src="js/B.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <script>
+    let a=new A();
+    let b=new B();
+
+    b.setA();
+    a.getA();
+    </script>
+  </body>
+</html>
+
+```
+Store.js文件
+
+```js
+class Store{
+  constructor(){
+    this._state={};
+  }
+
+  get(key){
+    if(key in this._state){
+      return this._state[key];
+    }else{
+      throw new Error(`${key} is not defined`);
+    }
+  }
+
+  set(key, val){
+    this._state[key]=val;
+  }
+
+  connect(cls){
+    let store=this;
+
+    return class extends cls{
+      constructor(...args){
+        super(...args);
+
+        this.get=store.get.bind(store);
+        this.set=store.set.bind(store);
+        
+        // this.get=store.get;
+        // this.set=store.set;
+      }
+    }
+  }
+}
+
+let store=new Store();
+```
+A.js文件
+```js
+const A=store.connect(class {
+  constructor(){
+
+  }
+
+  getA(){
+    console.log(this.get('a'));
+  }
+});
+```
+B.js文件
+```js
+const B=store.connect(class {
+  constructor(){
+
+  }
+
+  setA(){
+    this.set('a', 12);
+  }
+});
+
+```
+
