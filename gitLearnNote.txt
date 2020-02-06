@@ -114,6 +114,10 @@
   		      >>然后再git push 提交到远端		
 		  git pull 相当于git fetch和git merge
 
+	    如何覆盖更新：
+		git fetch --all
+		git reset --hard origin/master	
+
 		
 
 
