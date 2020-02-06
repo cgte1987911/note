@@ -1,0 +1,43 @@
+.hot-host {
+  padding: 0 20px;
+  width: 250px;
+  margin: 0 auto;
+  font-size: 12px;
+  margin-top: 200px;
+}
+
+.hot-host .v-hd {
+  position: relative;
+  height: 23px;
+  border-bottom: 1px solid #ccc;
+  color: #333;
+}
+
+.hot-host .user-list {
+  margin-top: 20px;
+}
+
+.hot-host .user-list li {
+  height: 50px;
+}
+
+.hot-host .user-list .cver {
+  margin-right: 10px;
+}
+
+.hot-host .user-list .info .nm-icn {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  color: #333;
+}
+
+.hot-host .user-list .info img {
+  height: 13px;
+}
+
+.hot-host .user-list .info .label {
+  color: #666;
+  line-height: 21px;
+}

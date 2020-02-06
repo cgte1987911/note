@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/initialize.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>智能社</title>
+  <script src="js/assert.js" charset="utf-8"></script>
+  <script src="js/common.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <div class="hot-host">
+  </div>
+
+  <script>
+  const HotList=createClass(class {
+    render(){
+      let div=document.createElement('div');
+      div.className='v-hd';
+      div.innerHTML=this.title;
+
+      let ul=document.createElement('ul');
+      ul.className='user-list';
+
+      let arr=[];
+      this.data.forEach(data=>{
+        arr.push(`
+          <li class="row">
+            <a href="${data.href}" class="cver">
+              <img src="${data.avatar}" alt="">
+            </a>
+            <div class="info">
+              <p class="row aic">
+                <a href="${data.href}" class="nm-icn">${data.name}</a>
+                ${data.vip?'<img src="./img/vip.png" alt="">':''}
+              </p>
+              <p class="label">${data.title}</p>
+            </div>
+          </li>
+        `);
+      });
+      ul.innerHTML=arr.join('');
+
+      //
+      this._root.innerHTML='';
+      this._root.appendChild(div);
+      this._root.appendChild(ul);
+    }
+  });
+
+  let list=new HotList({
+    root: '.hot-host',
+    data(){
+      return {
+        title: '热门主播',
+        data: [
+          {
+            name: 'blue',
+            href: 'http://www.zhinengshe.com/',
+            avatar: 'img/1407374893913311.jpg',
+            vip: false,
+            title: '打杂的'
+          },
+          {
+            name: 'blue',
+            href: 'http://www.zhinengshe.com/',
+            avatar: 'img/1407374893913311.jpg',
+            vip: true,
+            title: '打杂的'
+          },
+          {
+            name: 'blue',
+            href: 'http://www.zhinengshe.com/',
+            avatar: 'img/1407374893913311.jpg',
+            vip: false,
+            title: '打杂的'
+          }
+        ]
+      }
+    }
+  });
+  </script>
+</body>
+
+</html>

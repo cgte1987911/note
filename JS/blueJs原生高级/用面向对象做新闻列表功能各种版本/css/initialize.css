@@ -1,0 +1,153 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.row {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.column {
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+}
+
+.jcc {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.jcsa {
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+}
+
+.jcsb {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.aic {
+  align-items: center;
+  -webkit-align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+  -webkit-flex: 1;
+}
+
+.fww {
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+}
+
+
+* {
+  box-sizing: border-box;
+}

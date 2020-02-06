@@ -187,3 +187,157 @@ const B=store.connect(class {
 
     console.log(a.count);
 ```
+
+defineProperty方式
+```js
+    class App{
+      constructor(options){
+        let data=options.data();
+
+        for(let name in data){
+          Object.defineProperty(this, name, {
+            configurable: true,
+            get(){
+              return data[name];
+            },
+            set(val){
+              data[name]=val;
+
+              this.render();
+            }
+          });
+        }
+
+        this._updated=false;
+      }
+
+      //this.arr, 1, 55
+      $set(obj, key, val){
+        this._updated=false;
+        obj[key]=val;
+
+        if(this._updated==false){
+          this.render();
+        }
+      }
+
+      render(){
+        console.log('render');
+        this._updated=true;
+      }
+    }
+
+    let app=new App({
+      root: '#div1',
+      data(){
+        return {
+          a: 12,
+          b: 5,
+          name: 'blue',
+          arr: [1,2,3],
+          data: {
+            a: 12,
+            b: 5
+          }
+        }
+      }
+    });
+```
+
+Proxy方式
+	Proxy基本使用
+```js
+ let _data={
+      a: 12,
+      arr: [1,2,3],
+      json: {a: 12, b: 5}
+    };
+
+    let p=new Proxy(_data, {
+      has(data, name){    //in
+        if(name in data){
+          return true;
+        }else{
+          return false;
+        }
+      },
+      get(data, name){  //获取
+        if(name in data){
+          return data[name];
+        }else{
+          throw new Error(`${name} is not defined`);
+        }
+      },
+      set(data, name, val){    //设置
+        console.log('set');
+        data[name]=val;
+      },
+      deleteProperty(data, name){   //处理delete
+        if(name in data){
+          return delete data[name];
+        }else{
+          throw new Error(`${name} is not defined`);
+        }
+      }
+    });
+```
+Proxy和函数配合
+```js
+    let _data=function (a, b, c){
+      console.log(a+b+c);
+    };
+
+    let p=new Proxy(_data, {
+      apply(fn, thisValue, args){
+        if(args.length!=3){
+          throw new Error('argument length must be 3');
+        }else{
+          fn(...args);
+        }
+      }
+    });
+
+    p(23,5,6);
+```
+Proxy和类配合
+```js
+    class A{
+      render(){
+        console.log('渲染');
+      }
+    }
+
+    let a=new Proxy(new A(), {
+      set(obj, name, val){
+        obj[name]=val;
+
+        obj.render();
+      }
+    });
+
+    a.name='blue';
+```
+
+```js
+    let A=new Proxy(class {
+      render(){
+        console.log('渲染');
+      }
+    }, {
+      construct(cls, args){
+        let obj=new cls();
+
+        return new Proxy(obj, {
+          set(data, name, val){
+            data[name]=val;
+
+            obj.render();
+          }
+        });
+      }
+    });
+
+    let a=new A();
+```
+
+
