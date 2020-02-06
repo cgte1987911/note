@@ -26,10 +26,8 @@ substring(8,Object.prototype.toString.call(date).length-1)
 ### 2.this问题
 
 **this指向在定时器或者事件里的问题解决方案**
-
-	箭头函数内部的this永远跟箭头函数外部一致
-	
-	箭头函数相当于自带一个bind(this)
+   箭头函数内部的this永远跟箭头函数外部一致
+   箭头函数相当于自带一个bind(this)
 
 ```html
 <!DOCTYPE html>
@@ -163,3 +161,29 @@ const B=store.connect(class {
 
 ```
 
+
+### 4.可响应对象的3种方式
+
+访问器方式
+```js
+    class A{
+      constructor(){
+        this._count=12;
+      }
+
+      get count(){
+        return this._count;
+      }
+      set count(val){
+        if(typeof val!='number'){
+          throw new Error('count must be a number');
+        }
+
+        this._count=val;
+      }
+    }
+
+    let a=new A();
+
+    console.log(a.count);
+```
