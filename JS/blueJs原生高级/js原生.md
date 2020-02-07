@@ -344,8 +344,8 @@ Proxy和类配合
 
 1. 父节点——parentNode
 2. 子节点
-   children——只有元素节点
-   childNodes——所有节点=元素+文本+注释+...
+	children——只有元素节点
+	childNodes——所有节点=元素+文本+注释+...
 
 节点类型 .nodeType
 数字 
