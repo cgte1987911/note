@@ -368,10 +368,10 @@ document是html元素的父级
 
 --------------------------------------------------------------------------------
 
-DOM操作：
-1.创建
-  创建元素
-  document.createElement('button')  
+DOM操作：  
+1.创建  
+  创建元素  
+  document.createElement('button')    
 
   创建文本节点  
   document.createTextNode('gfdhfghjkh');  
