@@ -342,17 +342,19 @@ Proxy和类配合
 
 ### 5.DOM节点
 
-1. 父节点——parentNode
-2. 子节点 <br/>
-	children——只有元素节点
-	childNodes——所有节点=元素+文本+注释+...
+1. 父节点——parentNode  
+
+2. 子节点   
+	
+	children——只有元素节点  
+	childNodes——所有节点=元素+文本+注释+...       
 
 节点类型 .nodeType
-数字 
-   1 document.ELEMENT_NODE
-   3 document.TEXT_NODE
-   8 document.COMMENT_NODE
-   9 document.DOCUMENT_NODE
+数字   
+   1 document.ELEMENT_NODE  
+   3 document.TEXT_NODE  
+   8 document.COMMENT_NODE  
+   9 document.DOCUMENT_NODE  
 
 document是html元素的父级
 
@@ -369,38 +371,38 @@ document是html元素的父级
 DOM操作：
 1.创建
   创建元素
-  document.createElement('button')
+  document.createElement('button')  
 
-  创建文本节点
-  document.createTextNode('gfdhfghjkh');
+  创建文本节点  
+  document.createTextNode('gfdhfghjkh');  
 
-  创建注释节点
-  document.createComment('hdyhdtfhgghjhj');
+  创建注释节点  
+  document.createComment('hdyhdtfhgghjhj');  
 
-  *创建其他标准下的元素
-  document.createElementNS
+  *创建其他标准下的元素  
+  document.createElementNS  
 
-2.加入
-  添加到末尾
-  父.appendChild(元素)
+2.加入  
+  添加到末尾  
+  父.appendChild(元素)  
 
-  插入到xxx之前
-  父.insertBefore(元素, 谁的前面)
+  插入到xxx之前  
+  父.insertBefore(元素, 谁的前面)  
 
-3.删除、替换
-  删除
-  父.removeChild(元素)
+3.删除、替换  
+  删除  
+  父.removeChild(元素)  
 
-  替换
-  父.replaceChild(元素, 替换谁)
+  替换  
+  父.replaceChild(元素, 替换谁)  
 
 --------------------------------------------------------------------------------
 
-文档碎片——
-1.不会多出一层
-2.性能比较高——所有的更新、重排一次搞定
+文档碎片——  
+1.不会多出一层  
+2.性能比较高——所有的更新、重排一次搞定  
 
-文档碎片示例：
+文档碎片示例：  
 
 ```html
 <!DOCTYPE html>
