@@ -340,4 +340,103 @@ Proxy和类配合
     let a=new A();
 ```
 
+### 5.DOM节点
+
+1.父节点——parentNode
+2.子节点
+  children——只有元素节点
+  childNodes——所有节点=元素+文本+注释+...
+
+节点类型 .nodeType
+数字
+1 document.ELEMENT_NODE
+3 document.TEXT_NODE
+8 document.COMMENT_NODE
+9 document.DOCUMENT_NODE
+
+document是html元素的父级
+
+--------------------------------------------------------------------------------
+
+兄弟节点
+1.previousSibling
+  需要处理兼容——需要elementNode
+
+2.nextSibling
+
+--------------------------------------------------------------------------------
+
+DOM操作：
+1.创建
+  创建元素
+  document.createElement('button')
+
+  创建文本节点
+  document.createTextNode('gfdhfghjkh');
+
+  创建注释节点
+  document.createComment('hdyhdtfhgghjhj');
+
+  *创建其他标准下的元素
+  document.createElementNS
+
+2.加入
+  添加到末尾
+  父.appendChild(元素)
+
+  插入到xxx之前
+  父.insertBefore(元素, 谁的前面)
+
+3.删除、替换
+  删除
+  父.removeChild(元素)
+
+  替换
+  父.replaceChild(元素, 替换谁)
+
+--------------------------------------------------------------------------------
+
+文档碎片——
+1.不会多出一层
+2.性能比较高——所有的更新、重排一次搞定
+
+文档碎片示例：
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="div1">
+
+    </div>
+    <script>
+    let root=document.getElementById('div1');
+
+    let frag=document.createDocumentFragment();
+    let h2=document.createElement('h2');
+    h2.innerHTML='asdfasdewrefhcfghjg';
+    frag.appendChild(h2);
+
+    let ul=document.createElement('ul');
+    ul.innerHTML='<li>stesdgfgsfdsgfdsg</li><li>stesdgfgsfdsgfdsg</li><li>stesdgfgsfdsgfdsg</li><li>stesdgfgsfdsgfdsg</li>';
+    frag.appendChild(ul);
+
+
+    //1002+1059=1030
+    let start=Date.now();
+    for(let i=0;i<50000;i++){
+      let ele=frag.cloneNode(true);
+
+      root.appendChild(ele);
+    }
+    alert(Date.now()-start);
+    </script>
+  </body>
+</html>
+
+```
 
