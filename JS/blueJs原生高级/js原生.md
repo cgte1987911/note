@@ -343,7 +343,7 @@ Proxy和类配合
 ### 5.DOM节点
 
 1. 父节点——parentNode
-2. 子节点
+2. 子节点 <br/>
 	children——只有元素节点
 	childNodes——所有节点=元素+文本+注释+...
 
