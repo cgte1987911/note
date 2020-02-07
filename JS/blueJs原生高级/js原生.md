@@ -442,3 +442,67 @@ DOM操作：
 
 ```
 
+可响应数组
+
+```html
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- 模板元素 -->
+      <div class="box">
+        <h2>sssss</h2>
+        <ul>
+          <li>asdfasdf</li>
+          <li>rwere</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+    let arr=new Proxy([12,5,8], {
+      set(arr, name, val){
+        arr[name]=val;
+        render();
+
+        return true;
+      }
+    });
+
+
+    //
+    let root=document.querySelector('#root');
+    let box=document.querySelector('.box');
+    let frag=document.createDocumentFragment();
+    frag.appendChild(box);
+
+    let timer=null;
+    function render(){
+      clearTimeout(timer);
+      timer=setTimeout(function (){
+        // 性能很低
+        root.innerHTML='';
+
+        arr.forEach(item=>{
+          let el=frag.cloneNode(true);
+
+          el.children[0].getElementsByTagName('h2')[0].innerHTML=item;
+
+          root.appendChild(el);
+        });
+      }, 0);
+    }
+
+    //初始渲染
+    render();
+    </script>
+  </body>
+</html>
+
+```
+
