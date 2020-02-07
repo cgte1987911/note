@@ -342,27 +342,27 @@ Proxy和类配合
 
 ### 5.DOM节点
 
-1.父节点——parentNode
-2.子节点
-  children——只有元素节点
-  childNodes——所有节点=元素+文本+注释+...
+1. 父节点——parentNode
+2. 子节点
+   children——只有元素节点
+   childNodes——所有节点=元素+文本+注释+...
 
 节点类型 .nodeType
-数字
-1 document.ELEMENT_NODE
-3 document.TEXT_NODE
-8 document.COMMENT_NODE
-9 document.DOCUMENT_NODE
+数字 
+   1 document.ELEMENT_NODE
+   3 document.TEXT_NODE
+   8 document.COMMENT_NODE
+   9 document.DOCUMENT_NODE
 
 document是html元素的父级
 
 --------------------------------------------------------------------------------
 
 兄弟节点
-1.previousSibling
-  需要处理兼容——需要elementNode
+1. previousSibling
+   需要处理兼容——需要elementNode
 
-2.nextSibling
+2. nextSibling
 
 --------------------------------------------------------------------------------
 
