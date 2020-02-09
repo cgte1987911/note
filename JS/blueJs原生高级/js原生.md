@@ -506,3 +506,167 @@ DOM操作：
 
 ```
 
+编译和渲染DOM节点
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="root">
+      姓名：{{name}}
+
+      <button type="button" @click="add">a+=6</button>
+
+      <input type="text" :value="a">
+      <span :title="name"></span>
+
+      <div class="">
+        -----------------
+      </div>
+
+      {{a+b+json.n}}
+    </div>
+    <script src="blue.js" charset="utf-8"></script>
+  </body>
+</html>
+```
+
+```js
+function assert(exp, msg){
+  if(!exp){
+    throw new Error(msg);
+  }
+}
+
+function _getElement(obj){
+  assert(obj, 'root is required');
+
+  if(typeof obj=='string'){
+    let el=document.querySelector(obj);
+    assert(el, `${obj} not found`);
+    return el;
+  }else if(obj instanceof HTMLElement){
+    return obj;
+  }else{
+    assert(false, 'root is invaild');
+  }
+}
+
+class Blue{
+  constructor(options={}){
+    this._root=_getElement(options.root);
+
+    //
+    this.timer=0;
+
+    //assert从简
+    const _this=this;
+    let proxy=new Proxy(options.data(), {
+      get(data, name){
+        assert(name in data, `data '${name}' is not found`);
+
+        return data[name];
+      },
+      set(data, name, val){
+        data[name]=val;
+
+        _this.update();
+
+        return true;
+      }
+    });
+
+    this._parent=this._root.parentNode;
+    // this._template=document.createDocumentFragment();
+    // this._template.appendChild(this._root);
+    this._template=this._root.cloneNode(true);
+
+    //保存所有methods
+    this._methods=options.methods||{};
+
+    this.update();
+
+    this._data=proxy;
+    return proxy;
+  }
+
+  update(){
+    clearTimeout(this.timer);
+    this.timer=setTimeout(()=>{
+      this.render();
+    }, 0);
+  }
+
+  render(){
+    console.log('render');
+
+    let root=this._template.cloneNode(true);
+
+    //1.找到所有的模板({{}})
+    Array.from(root.childNodes).forEach(child=>{
+      if(child.nodeType==document.TEXT_NODE){
+        child.data=child.data.replace(/\{\{[^\}]+\}\}/g, (str)=>{
+          str=str.substring(2, str.length-2).trim();
+
+          let arr=[];
+          for(let key in this._data){
+            arr.push(`let ${key}=${JSON.stringify(this._data[key])};`);
+          }
+          arr.push(str);
+
+          return eval(arr.join(''));
+        });
+      }
+    });
+
+    //2.找到所有的事件
+    Array.from(root.children).forEach(child=>{
+      Array.from(child.attributes).forEach(attr=>{
+        if(attr.name.startsWith('@')){
+          let evname=attr.name.substring(1);
+
+          child.addEventListener(evname, ()=>{
+            let arr=[];
+            for(let key in this._methods){
+              arr.push(`let ${key}=this._methods[${JSON.stringify(key)}];`);
+            }
+            arr.push(attr.value+'.call(this._data)');
+
+            eval(arr.join(''));
+          }, false);
+        }
+      });
+    });
+
+    //新的元素换进去
+    this._parent.replaceChild(root, this._root);
+    this._root=root;
+  }
+}
+
+let blue=new Blue({
+  root: '#root',
+  data(){
+    return {
+      name: 'blue',
+      a: 12,
+      b: 5,
+      c: 99,
+      json: {
+        n: 99
+      }
+    }
+  },
+  methods: {
+    add(){
+      this.a+=6;
+    }
+  }
+})
+
+```
+
