@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/common.js" charset="utf-8"></script>
+    <script src="js/VNode.js" charset="utf-8"></script>
+    <script src="js/VText.js" charset="utf-8"></script>
+    <script src="js/VElement.js" charset="utf-8"></script>
+    <script src="js/VComponent.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="root" title="aaa" +click="fn()" z-on:mouseover="fn2()" z-bind:value="a+b" :a="12" z-if="true" z-show="">
+      <h2>标题</h2>
+      asdfas [[a]] fsfsfas
+
+      [[a+b]]
+
+      [[a]]
+
+      [[a]]
+      <ul style="width:200px;height:200px;">
+        <li>111</li>
+        <li>222</li>
+        <li>333</li>
+      </ul>
+    </div>
+
+    <script>
+    let cmp=new VComponent({
+      el: '#root',
+      data: {
+        a: 12, b: 5,
+        arr: [
+          [1,2,3],
+          [4,5,6]
+        ],
+        arr2: [0,1,2]
+      },
+      methods: {
+        fn(){
+          alert('a');
+        },
+        fn2(){
+          this.a+=5;
+        }
+      }
+    });
+
+    console.log(cmp);
+
+    //初始渲染
+    cmp.render();
+    </script>
+  </body>
+</html>
