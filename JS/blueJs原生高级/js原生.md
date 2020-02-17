@@ -826,7 +826,7 @@ let blue=new Blue({
    - **获取子级的offset**
      
      方法一（推荐）
-    
+   
      ```html
       <!DOCTYPE html>
            <html lang="en" dir="ltr">
@@ -860,55 +860,240 @@ let blue=new Blue({
         
      ```
      
+      方法二
      
+     ```html
+      <!DOCTYPE html>
+        <html lang="en" dir="ltr">
+          <head>
+            <meta charset="utf-8">
+            <title></title>
+            <style media="screen">
+            body {height:3000px;}
+            #div1 {width:200px;height:200px;background:#CCC;position: absolute;}
+            </style>
+          </head>
+          <body>
+            <div id="div1">
+              <button type="button">aaaa</button>
+              <span>
+                <button type="button">aaaa</button>
+              </span>
+              <button type="button">aaaa</button>
+              <button type="button">aaaa</button>
+            </div>
+            <script>
+            let div=document.getElementById('div1');
+            div.onclick=function (ev){
+              let x=ev.offsetX;
+              let y=ev.offsetY;
+        
+              let obj=ev.srcElement;
+            
+              while(obj!=this){
+                x+=obj.offsetLeft;
+                y+=obj.offsetTop;
+            
+                obj=obj.offsetParent;
+              }
+            
+              console.log(x, y);
+            };
+            </script>
+          </body>
+        </html>
+     ```
    
-   ​      方法二
+   
+   
+   6.键盘事件
+   
+   ctrlKey、shiftKey、altKey    
+   
+   onkeydown/up    oninput
+   
+   keyCode 键码——不分大小写
    
    ```html
-    <!DOCTYPE html>
-      <html lang="en" dir="ltr">
-        <head>
-          <meta charset="utf-8">
-          <title></title>
-          <style media="screen">
-          body {height:3000px;}
-          #div1 {width:200px;height:200px;background:#CCC;position: absolute;}
-          </style>
-        </head>
-        <body>
-          <div id="div1">
-            <button type="button">aaaa</button>
-            <span>
-              <button type="button">aaaa</button>
-            </span>
-            <button type="button">aaaa</button>
-            <button type="button">aaaa</button>
-          </div>
-          <script>
-          let div=document.getElementById('div1');
-          div.onclick=function (ev){
-            let x=ev.offsetX;
-            let y=ev.offsetY;
-      
-            let obj=ev.srcElement;
-          
-            while(obj!=this){
-              x+=obj.offsetLeft;
-              y+=obj.offsetTop;
-          
-              obj=obj.offsetParent;
-            }
-          
-            console.log(x, y);
-          };
-          </script>
-        </body>
-      </html>
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <input type="text" id="txt1">
+       <script>
+       let txt=document.getElementById('txt1');
+   
+       txt.onkeydown=function (ev){
+         if(ev.keyCode==13){
+           alert('搜索');
+         }
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+   
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <input type="text" id="txt1">
+       <script>
+       let txt=document.getElementById('txt1');
+   
+       txt.onkeydown=function (ev){
+         // if(ev.keyCode==16){
+         //
+         // }
+   
+         if(ev.shiftKey){
+           
+         }
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+   
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <input type="text" id="txt1">
+       <script>
+       let txt=document.getElementById('txt1');
+   
+       // txt.onkeydown=function (){
+       txt.onkeydown=function (ev){
+         console.log(ev.key);
+       };
+       </script>
+     </body>
+   </html>
+   
    ```
    
    
    
+   7.事件捕获
+   
+   addEventListener()的第二个参数改成true就变成事件捕获了
+   
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <div id="div1">
+         <button type="button">aaa</button>
+       </div>
+       <script>
+       let div1=document.getElementById('div1');
+       let btn=div1.children[0];
+   
+       div1.addEventListener('click', function (ev){
+         alert('div');
+   
+         console.log(ev.srcElement);
+   
+         ev.cancelBubble=true;
+       }, true);
+       btn.addEventListener('click', function (){
+         alert('btn');
+       }, true);
+       </script>
+     </body>
+   </html>
+   
+   ```
+   
+   
+   
+   8.onmouseover/onmouseout
+   
+      onmouseenter/onmouseleave
+   
+   用两个列子说明区别：
+   
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+       <style media="screen">
+       #div1 {width:300px;height:300px;background:#CCC}
+       </style>
+     </head>
+     <body>
+       <div id="div1">
+         <button type="button">aaa</button>
+       </div>
+       <script>
+       let div1=document.getElementById('div1');
+   
+       div1.onmouseover=function (){
+         alert('over');
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+   
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+       <style media="screen">
+       #div1 {width:300px;height:300px;background:#CCC}
+       </style>
+     </head>
+     <body>
+       <div id="div1">
+         <button type="button">aaa</button>
+       </div>
+       <script>
+       let div1=document.getElementById('div1');
+   
+       div1.onmouseenter=function (){
+         alert('over');
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+   
+   
+   
+   9.加载事件
+   
+   onload              所有内容加载完成=html、css、js、img、video、audio、...
+   
+   ​						   img.onload     window.onload等
+   
+   DOMContentLoaded    HTML、CSS、JS
+   
    
 
 
-### 6.  键盘事件
+### 
