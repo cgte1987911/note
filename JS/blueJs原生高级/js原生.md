@@ -670,3 +670,245 @@ let blue=new Blue({
 
 ```
 
+
+
+### 6. js原生事件
+
+1. 阻止冒泡      
+
+   ev.cancelBubble=true   //这是兼容的
+
+   ev.stopPropagation()     //这是不兼容的
+
+2. 阻止默认右键弹出层菜单
+
+   方法一：
+   
+   ```js
+   document.oncontextmenu=function (){
+       alert('a');
+       return false;//可以用ev.preventDefault();替代
+   };
+   ```
+   
+   方法二：
+   
+```js
+   document.addEventListener('contextmenu', function (ev){
+         ev.preventDefault();//不能用return false
+    }, false);
+```
+
+   小实例阻止复制
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       asdfasdfasdfasdfsad
+       <script>
+       document.onkeydown=function (ev){
+         if(ev.ctrlKey && ev.keyCode==67){
+           alert('本站文章需要加入VIP才能复制');
+           ev.preventDefault();
+         }
+       };
+   
+       document.oncontextmenu=function (ev){
+         ev.preventDefault();
+       };
+       </script>
+     </body>
+   </html>
+   ```
+
+3. 阻止表单提交默认事件
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <form action="http://www.zhinengshe.com/" method="get">
+         <input type="text" name="user">
+         <button type="submit" name="button">提交</button>
+       </form>
+       <script>
+       let form=document.querySelector('form');
+   
+       form.onsubmit=function (ev){
+         ev.preventDefault();
+   
+         alert('ajax');
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+
+4. ev.target是当前触发事件的对象
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+     </head>
+     <body>
+       <button type="button" id="btn1">按钮</button>
+       <script>
+       let btn=document.getElementById('btn1');
+   
+       btn.onclick=function (ev){
+         alert(ev.target==this);
+       };
+       </script>
+     </body>
+   </html>
+   ```
+
+5. 鼠标事件  
+
+   clientX/Y    到可视区距离           全兼容
+
+   pageX/Y     到整个页面的距离
+
+   offsetX/Y    到当前元素的距离
+
+   
+
+   - **拖拽小实例**
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en" dir="ltr">
+     <head>
+       <meta charset="utf-8">
+       <title></title>
+       <style media="screen">
+       body {height:3000px;}
+       #div1 {width:200px;height:200px;background:#CCC;position:fixed; left:10px; top:50px;}
+       </style>
+     </head>
+     <body>
+       <div id="div1"></div>
+       <script>
+       let div=document.getElementById('div1');
+   
+       div.onmousedown=function (ev){
+         let disX=ev.offsetX;
+         let disY=ev.offsetY;
+   
+         document.onmousemove=function (ev){
+           div.style.left=ev.clientX-disX+'px';
+           div.style.top=ev.clientY-disY+'px';
+         };
+         document.onmouseup=function (){
+           document.onmousemove=null;
+           document.onmouseup=null;
+         };
+       };
+       </script>
+     </body>
+   </html>
+   
+   ```
+
+   - **获取子级的offset**
+     
+     方法一（推荐）
+    
+     ```html
+      <!DOCTYPE html>
+           <html lang="en" dir="ltr">
+            <head>
+              <meta charset="utf-8">
+              <title></title>
+              <style media="screen">
+              body {height:3000px;}
+              #div1 {width:200px;height:200px;background:#CCC;}
+              </style>
+            </head>
+            <body>
+              <div id="div1">
+                <button type="button">aaaa</button>
+                <button type="button">aaaa</button>
+                <button type="button">aaaa</button>
+                <button type="button">aaaa</button>
+              </div>
+              <script>
+              let div=document.getElementById('div1');
+              div.onclick=function (ev){
+                // console.log(ev.offsetX, ev.offsetY);
+                let offsetX=ev.pageX-div.offsetLeft;
+                let offsetY=ev.pageY-div.offsetTop;
+        
+                console.log(offsetX, offsetY);
+              };
+              </script>
+            </body>
+          </html>
+        
+     ```
+     
+     
+   
+   ​      方法二
+   
+   ```html
+    <!DOCTYPE html>
+      <html lang="en" dir="ltr">
+        <head>
+          <meta charset="utf-8">
+          <title></title>
+          <style media="screen">
+          body {height:3000px;}
+          #div1 {width:200px;height:200px;background:#CCC;position: absolute;}
+          </style>
+        </head>
+        <body>
+          <div id="div1">
+            <button type="button">aaaa</button>
+            <span>
+              <button type="button">aaaa</button>
+            </span>
+            <button type="button">aaaa</button>
+            <button type="button">aaaa</button>
+          </div>
+          <script>
+          let div=document.getElementById('div1');
+          div.onclick=function (ev){
+            let x=ev.offsetX;
+            let y=ev.offsetY;
+      
+            let obj=ev.srcElement;
+          
+            while(obj!=this){
+              x+=obj.offsetLeft;
+              y+=obj.offsetTop;
+          
+              obj=obj.offsetParent;
+            }
+          
+            console.log(x, y);
+          };
+          </script>
+        </body>
+      </html>
+   ```
+   
+   
+   
+   
+
+
+### 6.  键盘事件
