@@ -1,3 +1,7 @@
+
+
+
+
 ### 1.类型判断
 
 **typeof**   只能检测基本类型（如[1,2,3],{a:1,b:2}都检测为object）
@@ -726,374 +730,706 @@ let blue=new Blue({
    </html>
    ```
 
-3. 阻止表单提交默认事件
+阻止表单提交默认事件
 
-   ```html
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="http://www.zhinengshe.com/" method="get">
+      <input type="text" name="user">
+      <button type="submit" name="button">提交</button>
+    </form>
+    <script>
+    let form=document.querySelector('form');
+
+    form.onsubmit=function (ev){
+      ev.preventDefault();
+
+      alert('ajax');
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+ev.target是当前触发事件的对象
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮</button>
+    <script>
+    let btn=document.getElementById('btn1');
+
+    btn.onclick=function (ev){
+      alert(ev.target==this);
+    };
+    </script>
+  </body>
+</html>
+```
+
+鼠标事件  
+
+clientX/Y    到可视区距离           全兼容
+
+pageX/Y     到整个页面的距离
+
+offsetX/Y    到当前元素的距离
+
+
+
+- **拖拽小实例**
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    body {height:3000px;}
+    #div1 {width:200px;height:200px;background:#CCC;position:fixed; left:10px; top:50px;}
+    </style>
+  </head>
+  <body>
+    <div id="div1"></div>
+    <script>
+    let div=document.getElementById('div1');
+
+    div.onmousedown=function (ev){
+      let disX=ev.offsetX;
+      let disY=ev.offsetY;
+
+      document.onmousemove=function (ev){
+        div.style.left=ev.clientX-disX+'px';
+        div.style.top=ev.clientY-disY+'px';
+      };
+      document.onmouseup=function (){
+        document.onmousemove=null;
+        document.onmouseup=null;
+      };
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+- **获取子级的offset**
+  
+  方法一（推荐）
+
+  ```html
    <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <form action="http://www.zhinengshe.com/" method="get">
-         <input type="text" name="user">
-         <button type="submit" name="button">提交</button>
-       </form>
-       <script>
-       let form=document.querySelector('form');
-   
-       form.onsubmit=function (ev){
-         ev.preventDefault();
-   
-         alert('ajax');
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-
-4. ev.target是当前触发事件的对象
-
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <button type="button" id="btn1">按钮</button>
-       <script>
-       let btn=document.getElementById('btn1');
-   
-       btn.onclick=function (ev){
-         alert(ev.target==this);
-       };
-       </script>
-     </body>
-   </html>
-   ```
-
-5. 鼠标事件  
-
-   clientX/Y    到可视区距离           全兼容
-
-   pageX/Y     到整个页面的距离
-
-   offsetX/Y    到当前元素的距离
-
-   
-
-   - **拖拽小实例**
-
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-       <style media="screen">
-       body {height:3000px;}
-       #div1 {width:200px;height:200px;background:#CCC;position:fixed; left:10px; top:50px;}
-       </style>
-     </head>
-     <body>
-       <div id="div1"></div>
-       <script>
-       let div=document.getElementById('div1');
-   
-       div.onmousedown=function (ev){
-         let disX=ev.offsetX;
-         let disY=ev.offsetY;
-   
-         document.onmousemove=function (ev){
-           div.style.left=ev.clientX-disX+'px';
-           div.style.top=ev.clientY-disY+'px';
-         };
-         document.onmouseup=function (){
-           document.onmousemove=null;
-           document.onmouseup=null;
-         };
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-
-   - **获取子级的offset**
-     
-     方法一（推荐）
-   
-     ```html
-      <!DOCTYPE html>
-           <html lang="en" dir="ltr">
-            <head>
-              <meta charset="utf-8">
-              <title></title>
-              <style media="screen">
-              body {height:3000px;}
-              #div1 {width:200px;height:200px;background:#CCC;}
-              </style>
-            </head>
-            <body>
-              <div id="div1">
-                <button type="button">aaaa</button>
-                <button type="button">aaaa</button>
-                <button type="button">aaaa</button>
-                <button type="button">aaaa</button>
-              </div>
-              <script>
-              let div=document.getElementById('div1');
-              div.onclick=function (ev){
-                // console.log(ev.offsetX, ev.offsetY);
-                let offsetX=ev.pageX-div.offsetLeft;
-                let offsetY=ev.pageY-div.offsetTop;
-        
-                console.log(offsetX, offsetY);
-              };
-              </script>
-            </body>
-          </html>
-        
-     ```
-     
-      方法二
-     
-     ```html
-      <!DOCTYPE html>
         <html lang="en" dir="ltr">
-          <head>
-            <meta charset="utf-8">
-            <title></title>
-            <style media="screen">
-            body {height:3000px;}
-            #div1 {width:200px;height:200px;background:#CCC;position: absolute;}
-            </style>
-          </head>
-          <body>
-            <div id="div1">
-              <button type="button">aaaa</button>
-              <span>
-                <button type="button">aaaa</button>
-              </span>
-              <button type="button">aaaa</button>
-              <button type="button">aaaa</button>
-            </div>
-            <script>
-            let div=document.getElementById('div1');
-            div.onclick=function (ev){
-              let x=ev.offsetX;
-              let y=ev.offsetY;
+         <head>
+           <meta charset="utf-8">
+           <title></title>
+           <style media="screen">
+           body {height:3000px;}
+           #div1 {width:200px;height:200px;background:#CCC;}
+           </style>
+         </head>
+         <body>
+           <div id="div1">
+             <button type="button">aaaa</button>
+             <button type="button">aaaa</button>
+             <button type="button">aaaa</button>
+             <button type="button">aaaa</button>
+           </div>
+           <script>
+           let div=document.getElementById('div1');
+           div.onclick=function (ev){
+             // console.log(ev.offsetX, ev.offsetY);
+             let offsetX=ev.pageX-div.offsetLeft;
+             let offsetY=ev.pageY-div.offsetTop;
+     
+             console.log(offsetX, offsetY);
+           };
+           </script>
+         </body>
+       </html>
+     
+  ```
+  
+   方法二
+  
+  ```html
+   <!DOCTYPE html>
+     <html lang="en" dir="ltr">
+       <head>
+         <meta charset="utf-8">
+         <title></title>
+         <style media="screen">
+         body {height:3000px;}
+         #div1 {width:200px;height:200px;background:#CCC;position: absolute;}
+         </style>
+       </head>
+       <body>
+         <div id="div1">
+           <button type="button">aaaa</button>
+           <span>
+             <button type="button">aaaa</button>
+           </span>
+           <button type="button">aaaa</button>
+           <button type="button">aaaa</button>
+         </div>
+         <script>
+         let div=document.getElementById('div1');
+         div.onclick=function (ev){
+           let x=ev.offsetX;
+           let y=ev.offsetY;
+     
+           let obj=ev.srcElement;
+         
+           while(obj!=this){
+             x+=obj.offsetLeft;
+             y+=obj.offsetTop;
+         
+             obj=obj.offsetParent;
+           }
+         
+           console.log(x, y);
+         };
+         </script>
+       </body>
+     </html>
+  ```
+
+
+
+6.键盘事件
+
+ctrlKey、shiftKey、altKey    
+
+onkeydown/up    oninput
+
+keyCode 键码——不分大小写
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="txt1">
+    <script>
+    let txt=document.getElementById('txt1');
+
+    txt.onkeydown=function (ev){
+      if(ev.keyCode==13){
+        alert('搜索');
+      }
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="txt1">
+    <script>
+    let txt=document.getElementById('txt1');
+
+    txt.onkeydown=function (ev){
+      // if(ev.keyCode==16){
+      //
+      // }
+
+      if(ev.shiftKey){
         
-              let obj=ev.srcElement;
-            
-              while(obj!=this){
-                x+=obj.offsetLeft;
-                y+=obj.offsetTop;
-            
-                obj=obj.offsetParent;
-              }
-            
-              console.log(x, y);
-            };
-            </script>
-          </body>
-        </html>
-     ```
-   
-   
-   
-   6.键盘事件
-   
-   ctrlKey、shiftKey、altKey    
-   
-   onkeydown/up    oninput
-   
-   keyCode 键码——不分大小写
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <input type="text" id="txt1">
-       <script>
-       let txt=document.getElementById('txt1');
-   
-       txt.onkeydown=function (ev){
-         if(ev.keyCode==13){
-           alert('搜索');
-         }
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <input type="text" id="txt1">
-       <script>
-       let txt=document.getElementById('txt1');
-   
-       txt.onkeydown=function (ev){
-         // if(ev.keyCode==16){
-         //
-         // }
-   
-         if(ev.shiftKey){
-           
-         }
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <input type="text" id="txt1">
-       <script>
-       let txt=document.getElementById('txt1');
-   
-       // txt.onkeydown=function (){
-       txt.onkeydown=function (ev){
-         console.log(ev.key);
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   
-   
-   7.事件捕获
-   
-   addEventListener()的第二个参数改成true就变成事件捕获了
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-     </head>
-     <body>
-       <div id="div1">
-         <button type="button">aaa</button>
-       </div>
-       <script>
-       let div1=document.getElementById('div1');
-       let btn=div1.children[0];
-   
-       div1.addEventListener('click', function (ev){
-         alert('div');
-   
-         console.log(ev.srcElement);
-   
-         ev.cancelBubble=true;
-       }, true);
-       btn.addEventListener('click', function (){
-         alert('btn');
-       }, true);
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   
-   
-   8.onmouseover/onmouseout
-   
-      onmouseenter/onmouseleave
-   
-   用两个列子说明区别：
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-       <style media="screen">
-       #div1 {width:300px;height:300px;background:#CCC}
-       </style>
-     </head>
-     <body>
-       <div id="div1">
-         <button type="button">aaa</button>
-       </div>
-       <script>
-       let div1=document.getElementById('div1');
-   
-       div1.onmouseover=function (){
-         alert('over');
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   ```html
-   <!DOCTYPE html>
-   <html lang="en" dir="ltr">
-     <head>
-       <meta charset="utf-8">
-       <title></title>
-       <style media="screen">
-       #div1 {width:300px;height:300px;background:#CCC}
-       </style>
-     </head>
-     <body>
-       <div id="div1">
-         <button type="button">aaa</button>
-       </div>
-       <script>
-       let div1=document.getElementById('div1');
-   
-       div1.onmouseenter=function (){
-         alert('over');
-       };
-       </script>
-     </body>
-   </html>
-   
-   ```
-   
-   
-   
-   9.加载事件
-   
-   onload              所有内容加载完成=html、css、js、img、video、audio、...
-   
-   ​						   img.onload     window.onload等
-   
-   DOMContentLoaded    HTML、CSS、JS
-   
-   
+      }
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="txt1">
+    <script>
+    let txt=document.getElementById('txt1');
+
+    // txt.onkeydown=function (){
+    txt.onkeydown=function (ev){
+      console.log(ev.key);
+    };
+    </script>
+  </body>
+</html>
+
+```
 
 
-### 
+
+7.事件捕获
+
+addEventListener()的第二个参数改成true就变成事件捕获了
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="div1">
+      <button type="button">aaa</button>
+    </div>
+    <script>
+    let div1=document.getElementById('div1');
+    let btn=div1.children[0];
+
+    div1.addEventListener('click', function (ev){
+      alert('div');
+
+      console.log(ev.srcElement);
+
+      ev.cancelBubble=true;
+    }, true);
+    btn.addEventListener('click', function (){
+      alert('btn');
+    }, true);
+    </script>
+  </body>
+</html>
+
+```
+
+
+
+8.onmouseover/onmouseout
+
+   onmouseenter/onmouseleave
+
+用两个列子说明区别：
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #div1 {width:300px;height:300px;background:#CCC}
+    </style>
+  </head>
+  <body>
+    <div id="div1">
+      <button type="button">aaa</button>
+    </div>
+    <script>
+    let div1=document.getElementById('div1');
+
+    div1.onmouseover=function (){
+      alert('over');
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #div1 {width:300px;height:300px;background:#CCC}
+    </style>
+  </head>
+  <body>
+    <div id="div1">
+      <button type="button">aaa</button>
+    </div>
+    <script>
+    let div1=document.getElementById('div1');
+
+    div1.onmouseenter=function (){
+      alert('over');
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+
+
+9.加载事件
+
+onload              所有内容加载完成=html、css、js、img、video、audio、...
+
+​						   img.onload     window.onload等
+
+DOMContentLoaded    HTML、CSS、JS
+
+
+
+10.自定义事件
+
+dispatchEvent  触发DOM事件
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮1</button>
+    <button type="button" id="btn2">按钮2</button>
+    <script>
+    let btn1=document.querySelector('#btn1');
+    let btn2=document.querySelector('#btn2');
+
+    btn1.addEventListener('click', function (){
+      alert('dfasdfsda');
+    }, false);
+
+    btn2.onclick=function (){
+      let ev=new Event('click');
+
+      btn1.dispatchEvent(ev);
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+也可以继承Event
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮1</button>
+    <button type="button" id="btn2">按钮2</button>
+    <script>
+    let btn1=document.querySelector('#btn1');
+    let btn2=document.querySelector('#btn2');
+
+    class MyEvent extends Event{
+      constructor(...args){
+        super(...args);
+
+        this.a=12;
+      }
+    }
+
+    btn1.addEventListener('aaa', function (ev){
+      alert('dfasdfsda');
+      console.log(ev);
+    }, false);
+
+    btn2.onclick=function (){
+      let ev=new MyEvent('aaa');
+
+      btn1.dispatchEvent(ev);
+    };
+    </script>
+  </body>
+</html>
+
+```
+
+用自定义事件代替DOM事件
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/pipe.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮1</button>
+    <button type="button" id="btn2">按钮2</button>
+    <script>
+    let btn1=document.querySelector('#btn1');
+    let btn2=document.querySelector('#btn2');
+
+    const pipe=new Pipe();
+
+    class MyEvent extends Event{
+      constructor(...args){
+        super(...args);
+
+        this.a=12;
+      }
+    }
+
+    pipe.addListener('aaa', (a, b)=>{
+      alert('sdfasfsda');
+
+      console.log(a, b);
+    });
+    // btn1.addEventListener('aaa', function (ev){
+    //   alert('dfasdfsda');
+    //   console.log(ev);
+    // }, false);
+
+    btn2.onclick=function (){
+      // let ev=new MyEvent('aaa');
+      //
+      // btn1.dispatchEvent(ev);
+
+      pipe.dispatch('aaa', 12, 5);
+    };
+    </script>
+  </body>
+</html>
+
+```
+pipe.js
+```JS
+class Pipe{
+  constructor(){
+    this.pipes={};
+  }
+
+  addListener(type, fn){
+    this.pipes[type]=this.pipes[type]||[];
+
+    if(this.pipes[type].findIndex(func=>func==fn)==-1){
+      this.pipes[type].push(fn);
+    }
+  }
+
+  off(type, fn){
+    if(this.pipes[type]){
+      this.pipes[type]=this.pipes[type].filter(func=>func!=fn);
+
+      if(this.pipes[type].length==0){
+        delete this.pipes[type];
+      }
+    }
+  }
+
+  dispatch(type, ...args){
+    if(this.pipes[type]){
+      this.pipes[type].forEach(fn=>{
+        fn(...args);
+      });
+    }
+  }
+}
+
+```
+
+以下两个实例测试自定义事件和DOM事件的性能:
+
+DOM事件性能
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮1</button>
+    <button type="button" id="btn2">按钮2</button>
+    <script>
+    let btn1=document.querySelector('#btn1');
+    let btn2=document.querySelector('#btn2');
+
+    class MyEvent extends Event{
+      constructor(...args){
+        super(...args);
+
+        this.a=12;
+      }
+    }
+
+    btn1.addEventListener('aaa', function (ev){
+      // alert('dfasdfsda');
+      // console.log(ev);
+    }, false);
+
+
+    //750
+    let start=Date.now();
+    for(let i=0;i<100000;i++){
+      let ev=new MyEvent('aaa');
+
+      btn1.dispatchEvent(ev);
+    }
+    console.log(Date.now()-start);
+    </script>
+  </body>
+</html>
+
+```
+
+自定义事件性能
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/pipe.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <button type="button" id="btn1">按钮1</button>
+    <button type="button" id="btn2">按钮2</button>
+    <script>
+    let btn1=document.querySelector('#btn1');
+    let btn2=document.querySelector('#btn2');
+    let pipe=new Pipe();
+
+    pipe.addListener('aaa', ()=>{
+
+    });
+
+
+    //750
+    //43
+    let start=Date.now();
+    for(let i=0;i<100000;i++){
+      pipe.dispatch('aaa');
+    }
+    console.log(Date.now()-start);
+    </script>
+  </body>
+</html>
+
+```
+
+组件间数据通信
+
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+<script>
+class Pipe{
+  constructor(){
+    this.pipes={};
+  }
+
+  on(type, fn){
+    this.pipes[type]=this.pipes[type]||[];
+
+    if(this.pipes[type].findIndex(func=>func==fn)==-1){
+      this.pipes[type].push(fn);
+    }
+  }
+
+  off(type, fn){
+    if(this.pipes[type]){
+      this.pipes[type]=this.pipes[type].filter(func=>func!=fn);
+
+      if(this.pipes[type].length==0){
+        delete this.pipes[type];
+      }
+    }
+  }
+
+  emit(type, ...args){
+    if(this.pipes[type]){
+      this.pipes[type].forEach(fn=>{
+        fn(...args);
+      });
+    }
+  }
+}
+
+</script>
+  </head>
+  <body>
+    <div id="div1">
+      {{a}}
+    </div>
+
+    <div id="div2">
+      <button type="button">++</button>
+    </div>
+
+    <script>
+    const $=document.querySelectorAll.bind(document);
+    const pipe=new Pipe();
+
+
+    class Component1{
+      constructor(){
+        this.a=12;
+
+        this.el=$('#div1')[0];
+
+        this.render();
+
+        //
+        pipe.on('add', ()=>{
+          this.a++;
+          this.render();
+        });
+      }
+
+      render(){
+        this.el.innerHTML=this.a;
+      }
+    }
+
+    class Component2{
+      constructor(){
+        this.el=$('#div2')[0];
+
+        this.el.children[0].onclick=()=>{
+          pipe.emit('add');
+        };
+      }
+    }
+    new Component1();
+    new Component2();
+    </script>
+  </body>
+</html>
+
+```
+

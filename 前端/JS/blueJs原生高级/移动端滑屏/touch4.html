@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width">
+    <style media="screen">
+    body {height:3000px;}
+    * {margin:0;padding:0;list-style:none}
+    .box {width:200px;height:200px;border:1px solid black;margin:100px auto 0;position:relative;}
+    .container {background:#CCC;}
+
+    .top {position:absolute;left:0;top:0;width:100%;height:0;overflow:hidden;background:yellow}
+    .text {position:absolute;left:0;top:50%;margimargin-top:-10px;width:100%;text-align:center;height:20px;line-height:20px;}
+
+    .banner {width:200px;height:100px;overflow:hidden;}
+    .banner-inner {width:800px;height:100px;}
+    .banner-inner li {width:200px;height:100px;line-height:100px;text-align:center;font-size:30px;background:white;float:left;}
+    </style>
+    <script src="js/pipe.js" charset="utf-8"></script>
+    <script src="js/scroll2.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="container">
+        asdfasfsdfgsdfgdsg<br/>
+        asdfasfsdfgsdfgdsg<br/>
+        <div class="banner">
+          <ul class="banner-inner">
+            <li>0</li>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+          </ul>
+        </div>
+        asdfasfsdfgsdfgdsg<br/>
+        asdfasfsdfgsdfgdsg<br/>
+          asdfasfsdfgsdfgdsg<br/>
+          asdfasfsdfgsdfgdsg<br/>
+          asdfasfsdfgsdfgdsg<br/>
+          asdfasfsdfgsdfgdsg<br/>
+          asdfasfsdfgsdfgdsg<br/>
+            asdfasfsdfgsdfgdsg<br/>
+            asdfasfsdfgsdfgdsg<br/>
+            asdfasfsdfgsdfgdsg<br/>
+            asdfasfsdfgsdfgdsg<br/>
+            <button type="button" onclick="alert('a')">aaa</button>
+            asdfasfsdfgsdfgdsg<br/>
+              asdfasfsdfgsdfgdsg<br/>
+              asdfasfsdfgsdfgdsg<br/>
+              asdfasfsdfgsdfgdsg<br/>
+              asdfasfsdfgsdfgdsg<br/>
+              asdfasfsdfgsdfgdsg<br/>
+                asdfasfsdfgsdfgdsg<br/>
+                asdfasfsdfgsdfgdsg<br/>
+                asdfasfsdfgsdfgdsg<br/>
+                asdfasfsdfgsdfgdsg<br/>
+                asdfasfsdfgsdfgdsg<br/>
+      </div>
+
+      <div class="top">
+        <div class="text">
+          下拉刷新
+        </div>
+      </div>
+    </div>
+    <button type="button" id="btn1">取消拖动</button>
+    <script>
+    const topDiv=document.querySelector('.box .top');
+    const topText=document.querySelector('.box .top .text');
+
+    let s=new Scroll('.box', {
+      scrollX: false,
+    });
+
+    s.on('start', ()=>{
+      topDiv.style.transition='';
+      topText.innerHTML='下拉刷新';
+    });
+
+    s.on('move', (x,y)=>{
+      if(y<0){
+        topDiv.style.height=0;
+      }else{
+        topDiv.style.height=y+'px';
+
+        if(y>40){
+          topText.innerHTML='松手';
+        }else{
+          topText.innerHTML='下拉刷新';
+        }
+      }
+    });
+
+    s.on('end', ()=>{
+      topDiv.style.transition=`${s.options.animateDuration}ms height ${s.options.animateType}`;
+      topDiv.style.height=0;
+    });
+
+
+    s.on('move', (x, y)=>{
+      console.log(x, y);
+    });
+
+
+    const inner=document.querySelector('.banner-inner');
+    let s2=new Scroll('.banner', {
+      scrollY: false,
+      scrollX: true,
+    });
+
+    s2.on('end', ()=>{
+      let n=Math.round(-s2.position.x/200);
+      inner.style.transform=`translateX(-${n*200}px)`;
+      s2.position.x=-n*200;
+    });
+    </script>
+  </body>
+</html>
