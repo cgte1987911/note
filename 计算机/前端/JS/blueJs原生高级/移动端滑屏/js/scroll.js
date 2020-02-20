@@ -51,7 +51,7 @@ class Scroll{
 
   _initEvent(){
     let startX,startY;
-    let startPosition;
+    let startPosition={};
 
     this.__start=ev=>{
       ev.preventDefault();
@@ -60,7 +60,10 @@ class Scroll{
       startX=ev.targetTouches[0].clientX;
       startY=ev.targetTouches[0].clientY;
 
-      startPosition={...this.position};
+
+      //startPosition={...this.position}这种写法是错误的，因为会引用，导致改变一个值会影响另一个
+      startPosition.x=this.position.x;
+      startPosition.y=this.position.y;
 
       this._doStart();
     };
