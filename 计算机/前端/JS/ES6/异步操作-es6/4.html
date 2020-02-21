@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="jquery.js" charset="utf-8"></script>
+    <script>
+    async function show(){
+      let a=12;
+      let b=5;
+
+      try{
+        let data=await $.ajax({url: 'data/1.txt', dataType: 'json'});
+
+        alert(a+b+data[0]);
+      }catch(e){
+        alert('读取失败');
+      }
+    }
+
+    show();
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

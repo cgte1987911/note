@@ -1,0 +1,90 @@
+异步操作——ajax
+
+ajax('http://aaa.com/a/1.txt', function (){});
+
+异步操作：同时进行多个操作，用户体验；代码混乱
+同步操作：一次只能进行一个操作，用户体验不好；清晰
+
+//异步——麻烦、降低代码质量
+ajax('http://taobao.com/api/user', function (data1){
+  ajax('http://taobao.com/api/items', function (data2){
+    ajax('http://taobao.com/api/ad', function (data3){
+
+    }, function (){
+      alert('error');
+    });
+  }, function (){
+    alert('error');
+  });
+}, function (){
+  alert('error');
+});
+
+//同步——容易
+let data1=ajax('http://taobao.com/api/user');
+let data2=ajax('http://taobao.com/api/items');
+let data3=ajax('http://taobao.com/api/ad');
+
+--------------------------------------------------------------------------------
+
+融合异步、同步？
+Promise
+async/await
+
+--------------------------------------------------------------------------------
+
+Promise——封装
+Promise.all([
+  p1,
+  p2,
+  p3,
+  ...
+]).then
+
+Promise.race      竞速
+
+--------------------------------------------------------------------------------
+
+let user_data=ajax('http://taobao.com/api/user');
+
+if(user_data.vip){
+  let data2=ajax('http://taobao.com/api/vip_items');
+  let data3=ajax('http://taobao.com/api/vip_ad');
+}else{
+  let data2=ajax('http://taobao.com/api/items');
+  let data3=ajax('http://taobao.com/api/ad');
+}
+
+--------------------------------------------------------------------------------
+
+ajax('http://taobao.com/api/user').then(user_data=>{
+  if(user_data.vip){
+    ajax('http://taobao.com/api/vip_items').then();
+  }
+}, err=>{
+  alert('xxx');
+});
+
+--------------------------------------------------------------------------------
+
+async/await
+
+async function show(){
+  xxx;
+  xxx;
+
+  let data=await $.ajax();
+
+  xxx;
+}
+
+show();
+
+--------------------------------------------------------------------------------
+
+普通函数——一直执行，直到结束
+async函数——能够“暂停”
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------

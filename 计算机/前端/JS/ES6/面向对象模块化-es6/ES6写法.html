@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+    //有单独的类声明、构造函数声明
+    class Person{
+      constructor(name, age){
+        this.name=name;
+        this.age=age;
+      }
+
+      showName(){
+        alert(this.name);
+      }
+
+      showAge(){
+        alert(this.age);
+      }
+    }
+
+    class Worker extends Person{
+      constructor(name, age, job){
+        super(name, age);
+
+        this.job=job;
+      }
+
+      showJob(){
+        alert(this.job);
+      }
+    }
+
+    let w=new Worker('blue', 18, '随便');
+
+    w.showName();
+    w.showAge();
+    w.showJob();
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

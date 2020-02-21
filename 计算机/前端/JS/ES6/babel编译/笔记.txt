@@ -1,0 +1,21 @@
+﻿在线：
+1.引入browser
+2.type="text/babel"
+
+node：
+npm
+
+1.安装node
+2.安装babel
+  npm i @babel/core @babel/cli @babel/preset-env
+  npm i @babel/polyfill                如果要兼容特别低的游览器就要下这个
+3.添加脚本
+  "build": "babel src -d dest"
+4.新建   .babelrc文件   添加配置   
+  {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  }
+5.执行
+  npm run build

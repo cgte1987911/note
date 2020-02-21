@@ -1,0 +1,114 @@
+面向对象？
+封装——
+
+ES5面向对象——假的
+没有统一写法
+
+继承？
+1.省事
+2.便于扩展
+
+--------------------------------------------------------------------------------
+
+class         类声明
+constructor   构造函数
+extends       继承
+super         父类/超类
+
+--------------------------------------------------------------------------------
+
+function xxx(){
+  this.x=x;
+}
+
+xxx.prototype.fn=function (){
+
+};
+
+function sub(){
+  xxx.call(this, xxx);
+}
+
+sub.prototype=new xxx();
+sub.prototype.constructor=sub;
+
+sub.prototype.fn2=function (){
+
+}
+
+---
+
+class xxx{
+  constructor(){
+    this.x=x;
+  }
+
+  fn(){
+
+  }
+}
+
+class sub extends xxx{
+  constructor(){
+    super(xx, xx);
+  }
+
+  fn2(){
+
+  }
+}
+
+--------------------------------------------------------------------------------
+
+ES6模块？
+webpack
+
+模块？
+1.定义
+2.使用
+
+--------------------------------------------------------------------------------
+
+1.导出
+2.导入
+3.webpack编译
+
+--------------------------------------------------------------------------------
+
+导出(export)
+//变量
+export let a=12;
+export const a=12;
+
+//一堆
+let a,b,c=...;
+export {a, b, c, ...};
+
+//导出函数
+export function show(){
+  ...
+}
+
+//导出class
+export class Person{
+
+}
+
+默认成员
+export default
+
+--------------------------------------------------------------------------------
+
+导入
+import * as mod1 from 'xxx';        引入所有成员
+import mod1 from 'xxx';             引入default成员
+
+import {a,b as name2} from 'xxx';
+
+//只引入
+import 'xxx';
+
+//异步引入
+let p=import("./mod1");
+
+--------------------------------------------------------------------------------
