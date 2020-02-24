@@ -1433,3 +1433,16 @@ class Pipe{
 
 ```
 
+10.addEventListener()的第二个参数可以传一个对象(比如this),当事件触发时，这个对象的`handleEvent`方法被调用，像这样：
+
+```js
+document.body.addEventListener(
+    'click',
+    {
+        handleEvent: function() {
+            alert('body clicked');
+        }
+    },
+    false);
+```
+
