@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
     <title></title>
     <style media="screen">
     .wrap {width:300px; height:300px; background:#CCC; overflow:hidden; margin:50px auto 0; position:relative;}
@@ -12,11 +11,7 @@
     <script src="iscroll-probe.js" charset="utf-8"></script>
     <script>
     window.onload=function (){
-      let iscroll=new IScroll('.wrap', {
-        disableTouch: false,
-        disablePointer: true,
-        scrollY:    true,
-        probeType:  3});
+      let iscroll=new IScroll('.wrap', {probeType: 2});
       let dropdown=document.querySelector('.dropdown');
       let content=document.querySelector('.content');
 
@@ -40,12 +35,10 @@
       iscroll.on('scrollEnd', function (){
         //content.style.marginTop='30px';
         if(scrollYBeforeRelease>100){
-          //iscroll.scrollTo(iscroll.x, 30)
           //alert('刷新');
           dropdown.innerHTML='加载中...';
-          content.style.top=iscroll.y+'px'
-          //content.style.transition='0.6s all ease';
-          //content.style.marginTop='30px';
+          content.style.transition='0.6s all ease';
+          content.style.marginTop='30px';
 
           setTimeout(function (){
             dropdown.innerHTML='加载完成';
