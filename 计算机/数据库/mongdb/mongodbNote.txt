@@ -1,0 +1,10 @@
+001
+/*启动数据库，如果不指定port参数的话默认是27017*/
+mongod --dbpath J:\codeLearn\node\miaovNode\db --port 27018
+
+002
+/*以管理员身份连接数据库*/
+mongo 127.0.0.1:27018/admin
+
+003
+/*创建数据库*/

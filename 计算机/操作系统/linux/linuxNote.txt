@@ -1,0 +1,6 @@
+001
+/*vmware安装 vmware Tools*/
+/*01. 先将光盘挂在到/mnt:/*  mount /dev/cdrom /mnt
+/*02. 然后解压/mnt下的这个vmware-tool文件*/  tar xvzf /mnt/vmware..
+/*03. 安装文件*/ ./vmware-install.pl
+/*04. 一路按回车,安装完成重启虚拟机*/
