@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		#div1 div,#div2 div,#div3 div,#div4 div{width:300px;height:300px;border:1px solid #ccc;display: none;}
+		.active{background:red;}
+	</style>
+	<script>
+		window.onload=function(){
+			var t1=new Tab();
+			t1.init('div1',{})
+			var t2=new Tab();
+			t2.init('div2',{event:'mouseover'})
+			var t3=new Tab();
+			t3.init('div3',{event:'mouseover',delay:300})
+			var t4=new Tab();
+			t4.init('div4')
+			t4.nowSel(2);
+			bindEvent(t4,'beforeClick',function(){
+					alert(t4.getContent())
+
+			})
+			bindEvent(t4,'afterClick',function(){
+				alert(t4.getContent())
+
+			})
+
+		}
+		
+
+
+		function Tab(){
+			this.oParent=null;
+			this.aInput=null;
+			this.aDiv=null;
+			this.iNow=0;
+			this.settings={event:'click',delay:0}
+		}
+		Tab.prototype.init=function(oParent,opt){
+			extend(this.settings,opt);
+			this.oParent=document.getElementById(oParent);
+			this.aInput=this.oParent.getElementsByTagName('input');
+			this.aDiv=this.oParent.getElementsByTagName('div');
+
+			this.change();
+		}
+		Tab.prototype.change=function(){
+			var This=this;
+			var timer=null;
+			for(var i=0;i<this.aInput.length;i++){
+				this.aInput[i].index=i;
+				bindEvent(this.aInput[i],this.settings.event,function(){
+				var _this=this;
+				if(This.settings.event=='mouseover'&&This.settings.delay){
+					timer=setTimeout(function(){
+
+						show(_this);
+					},This.settings.delay)
+				}
+				else
+
+					show(this)
+				})
+				bindEvent(this.aInput[i],'mouseout',function(){
+					clearInterval(timer);
+				})
+				
+			}
+			
+			function show(obj){
+				fireEvent(This,'beforeClick');
+				for(var i=0;i<This.aInput.length;i++){
+
+					This.aInput[i].className=''
+					This.aDiv[i].style.display='none';
+				}
+				This.aInput[obj.index].className='active';
+				This.aDiv[obj.index].style.display='block';
+				This.iNow=obj.index;
+				fireEvent(This,'afterClick');
+
+			}
+		}
+		Tab.prototype.nowSel=function(index){
+				for(var i=0;i<this.aInput.length;i++){
+					this.aInput[i].className=''
+					this.aDiv[i].style.display='none';
+				}
+
+				this.aInput[index].className='active';
+				this.aDiv[index].style.display='block';
+				this.iNow=index;
+		}
+		Tab.prototype.getContent=function(){
+			return this.aDiv[this.iNow].innerHTML;
+		}
+
+
+
+		function bindEvent(obj,events,fn){
+			//obj : 楼层
+			//events : 书架
+			//fn : 一本书
+			
+			obj.listeners = obj.listeners || {};
+			obj.listeners[events] = obj.listeners[events] || [];
+			obj.listeners[events].push( fn );
+
+			if(obj.nodeType){
+
+				if(obj.addEventListener){
+					obj.addEventListener(events,fn,false);
+				}
+				else{
+					obj.attachEvent('on'+events,fn);
+				}
+			}
+		}
+
+		function fireEvent(obj,events){   //主动触发自定义事件
+			
+			if(obj.listeners && obj.listeners[events]){
+				for(var i=0;i<obj.listeners[events].length;i++){
+					 obj.listeners[events][i]();
+				}
+			}
+			
+		}
+
+
+		function extend(obj1,obj2){
+			for(var attr in obj2){
+				obj1[attr] = obj2[attr];
+			}
+		}
+	</script>
+</head>
+<body>
+<div id='div1'>
+	<input class='active' type='button' value="1">
+	<input type='button' value="2">
+	<input type='button' value="3">
+	<div style='display:block'>11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+<div id='div2'>
+	<input class='active' type='button' value="1">
+	<input type='button' value="2">
+	<input type='button' value="3">
+	<div style='display:block'>11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+<div id='div3'>
+	<input class='active' type='button' value="1">
+	<input type='button' value="2">
+	<input type='button' value="3">
+	<div style='display:block'>11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+<div id='div4'>
+	<input class='active' type='button' value="1">
+	<input type='button' value="2">
+	<input type='button' value="3">
+	<div style='display:block'>11111</div>
+	<div>22222</div>
+	<div>33333</div>
+</div>
+</body>
+</html>

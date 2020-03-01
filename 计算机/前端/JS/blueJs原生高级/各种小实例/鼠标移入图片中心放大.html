@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<style>
+	*{margin:0;padding:0;}
+	.clearfix:after{display:block;clear:both;content:'';}
+</style>
+<head>
+	<title>test</title>
+	<script>
+		function getStyle(obj,attr){
+			if(obj.currentStyle)
+				return obj.currentStyle[attr];
+			else
+				return getComputedStyle(obj,false)[attr];
+		}
+
+		function startMove(obj,json,fnEnd){
+			clearInterval(obj.timer);
+			obj.timer=setInterval(function(){
+				var bStop=true;
+				for(var attr in json){
+					var cur=0;
+					if(attr=='opacity')
+					{
+						cur=Math.round(parseFloat(getStyle(obj,attr)*100));
+					}
+					else
+						cur=parseInt(getStyle(obj,attr));
+
+					var speed=(json[attr]-cur)/2;
+					speed=speed>0?Math.ceil(speed):Math.floor(speed);
+
+					if(cur!=json[attr])
+						bStop=false;
+					if(attr=='opacity')
+					{
+						obj.style.filter='alpha(opacity:'+(cur+speed)+')';
+						obj.style.opacity=(cur+speed)/100;
+					}
+					else
+						obj.style[attr]=cur+speed+'px';
+				}
+				if(bStop)
+				{
+					clearInterval(obj.timer);
+					if(fnEnd)
+						fnEnd();
+				}
+			},30)
+		}
+
+		window.onload=function(){
+			var oImg1=document.getElementById('img1')
+			oImg1.onmouseover=function(){
+				startMove(oImg1,{width:470,height:150,left:-85,top:-25})
+			}
+			oImg1.onmouseout=function(){
+				startMove(oImg1,{width:300,height:100,left:0,top:0})
+			}
+		}
+	</script>
+</head>
+<body>
+		<div class="clearfix" style="width:300px;height:100px;background:black;overflow:hidden;margin:100px auto;position:relative;">
+			<img id="img1" src="./3.jpg" style="position:absolute;left:0;top:0;width:300px;height:100px;">
+		</div>
+</body>
+</html>

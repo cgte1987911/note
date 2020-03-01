@@ -1,0 +1,4 @@
+await query(“SET autocommit = 0;”);
+await query(“BEGIN;”);
+await query(“业务sql语句”);
+await query(“COMMIT”);

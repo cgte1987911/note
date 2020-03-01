@@ -1,0 +1,30 @@
+{
+  "name": "node_framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "koa": "^2.8.1",
+    "koa-better-body": "^3.0.4",
+    "koa-convert": "^1.2.0",
+    "koa-ejs": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.12.2",
+    "koa-static": "^5.0.0",
+    "memorystream": "^0.3.1",
+    "promise-fs": "^2.1.1",
+    "promise-mysql": "^4.1.0",
+    "redis": "^2.8.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "opn": "^6.0.0"
+  }
+}

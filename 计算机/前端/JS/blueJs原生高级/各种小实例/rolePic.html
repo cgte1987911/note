@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+
+</head>
+<body>
+				<div id="rolePic">
+					<ul>
+						<li style="background:red;">111</li>
+ 						<li style="background:yellow;"></li>
+						<li style="background:pink;"></li>
+						<li style="background:orange;"></li>
+						<li style="background:grey;"></li>
+					</ul>
+					<div id="tabL" class="tab_btn"></div>
+					<div id="tabR" class="tab_btn"></div>
+				</div>
+
+		
+		
+
+<style>
+*{margin:0;padding:0;}
+ul,ol{list-style:none;}
+.clearfix:after{content:'';display:block;clear:both;}
+#rolePic{float:left;background:black;margin:27px 20px 20px 27px;position:relative;overflow:hidden;}
+</style>
+
+
+<script>
+window.onload=function(){
+	var oRolePic=new RolePic('rolePic');
+	oRolePic.init({
+		W:374,
+		H:374,
+		autoPlay:{interval:3000},
+		tabBtn:{
+			W:20,
+			H:20,
+			T:175,
+			lBtn:20,
+			rBtn:20,
+			color:'3px solid white'
+		}
+	});
+	oRolePic.slide();
+	
+}
+
+
+function RolePic(parent,opt){
+	this.parent=document.getElementById(parent);
+	this.oUl=this.parent.getElementsByTagName('ul')[0];
+	this.aLi=this.oUl.getElementsByTagName('li');
+	this.aTabBtn=getByClass(this.parent,'tab_btn');
+	this.settings={widths:500,heights:500,autoPlay:{interval:5000},tabBtn:false};
+	this.now=0;
+	this.timer=null;
+	this.style="#rolePic ul{position:absolute;left:0;top:0;}\
+				.tab_btn{position:absolute;top:175px;cursor:pointer;}\
+				#tabL{transform:rotate(-45deg);}\
+				#tabR{transform:rotate(135deg);}"
+}
+
+RolePic.prototype.init=function(opt){
+		extend(this.settings,opt);
+		this.parent.style.width=this.settings.W+'px';
+		this.parent.style.height=this.settings.H+'px';
+
+		this.picWidth=this.aLi[0].offsetWidth;
+		for(var i=0;i<this.aLi.length;i++){
+			this.aLi[i].style.float='left';
+			this.aLi[i].style.width=this.settings.W+'px'
+			this.aLi[i].style.height=this.settings.H+'px'
+		}
+		this.oUl.innerHTML+=this.oUl.innerHTML;
+		this.oUl.style.width=this.aLi.length*this.picWidth+'px';
+		this.oUl.style.position='absolute'
+		this.oUl.style.left=0;
+		this.oUl.style.top=0;
+		if(this.settings.tabBtn){
+			for(var i=0;i<this.aTabBtn.length;i++){
+				this.aTabBtn[i].style.width=this.settings.tabBtn.W+'px';
+				this.aTabBtn[i].style.height=this.settings.tabBtn.H+'px';
+				this.aTabBtn[i].style.top=this.settings.tabBtn.T+'px';
+				this.aTabBtn[i].style.position='absolute';
+				this.aTabBtn[i].style.borderLeft=this.settings.tabBtn.color;
+				this.aTabBtn[i].style.borderTop=this.settings.tabBtn.color;
+				this.aTabBtn[i].style.cursor='pointer';
+			}
+			this.aTabBtn[0].style.left=this.settings.tabBtn.lBtn+'px';
+			this.aTabBtn[1].style.right=this.settings.tabBtn.rBtn+'px';
+			this.aTabBtn[0].style.transform='rotate(-45deg)';
+			this.aTabBtn[1].style.transform='rotate(135deg)';
+		}
+
+
+
+
+		if(this.settings.autoPlay&&this.aLi.length/2>1){
+			this.autoPlay();
+		}
+
+}
+
+
+RolePic.prototype.autoPlay=function(){
+	var This=this;
+	this.timer=setInterval(function(){
+				This.now++;
+				This.tab();
+		},This.settings.autoPlay.interval);
+	
+	this.parent.onmouseover=function(){
+			if(This.settings.tabBtn){
+				for(var i=0;i<This.aTabBtn.length;i++){
+				This.aTabBtn[i].style.display='block';
+				}
+			}
+			clearInterval(This.timer)
+	};
+	this.parent.onmouseout=function(){
+		if(This.settings.tabBtn){
+				for(var i=0;i<This.aTabBtn.length;i++){
+				This.aTabBtn[i].style.display='none';
+				}
+			}
+		This.timer=setInterval(function(){			
+				This.now++;
+				This.tab();
+			},This.settings.autoPlay.interval);
+	};
+}
+RolePic.prototype.slide=function(){
+	var This=this;
+	
+	if(this.settings['tabBtn']&&this.aLi.length/2>1){
+		this.aTabBtn[0].onclick=function(){
+			This.now--;
+			
+			This.tab();
+		};
+		this.aTabBtn[1].onclick=function(){
+			This.now++;
+			This.tab();
+		};
+	}
+	else{
+
+		for(var i=0;i<this.aTabBtn.length;i++){
+			this.aTabBtn[i].style.display='none';
+		}
+	}
+}
+
+RolePic.prototype.tab=function(){
+	
+	if(this.now==-1){
+		this.now=this.aLi.length/2;
+		this.oUl.style.left=-this.now*this.picWidth+'px'
+		this.now--;
+	}
+	else if(this.now==this.aLi.length/2+1){
+		this.now=0;
+		this.oUl.style.left=0;
+		this.now++;
+	}
+	
+	startMove(this.oUl,{left:-this.now*this.picWidth})
+
+}
+
+
+
+	function extend(obj1,obj2){
+		for(var attr in obj2){
+			obj1[attr]=obj2[attr];
+		}
+	}
+
+	function getByClass(oParent,sClass){
+		var arr=[];
+		var aEle=oParent.getElementsByTagName("*")
+		var re = new RegExp('\\b'+sClass+'\\b');
+		//var re = new RegExp('\\b'+sClass+'\\b');
+		for(var i=0;i<aEle.length;i++){
+			if(re.test(aEle[i].className))
+			{
+				arr.push(aEle[i])
+			}
+		}
+
+		return arr;
+	}
+
+
+
+	function getStyle(obj,name){
+		if(obj.currentStyle){
+			return obj.currentStyle[name];
+		}
+		else
+			return getComputedStyle(obj,false)[name]
+		}		
+	
+	
+	function startMove(obj,json,fnEnd){
+		clearInterval(obj.timer);
+		obj.timer=setInterval(function(){
+			var bStop=true;
+			for(var attr in json){
+				var cur=0;
+				if(attr=='opacity'){
+					cur=Math.round(parseFloat(getStyle(obj,attr)*100));
+				}
+				else{
+					cur=parseInt(getStyle(obj,attr))
+				}
+			
+			
+			var speed=(json[attr]-cur)/6;
+			speed=speed>0?Math.ceil(speed):Math.floor(speed);
+			if(cur!=json[attr])
+				bStop=false
+			if(attr=='opacity'){
+				obj.style.filter='alpha(opacity:'+(cur+speed)+')';
+				obj.style.opacity=(cur+speed)/100;
+			}
+			else{
+				obj.style[attr]=cur+speed+'px'
+			}
+			}
+			if(bStop){
+				clearInterval(obj.timer)
+				if(fnEnd)
+					fnEnd()
+			}
+						
+		},30);
+		
+		
+	}
+</script>
+</body>
+</html>

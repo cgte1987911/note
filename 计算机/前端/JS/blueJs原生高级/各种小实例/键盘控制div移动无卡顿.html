@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>键盘控制div移动，解决停顿问题</title>
+<meta charset="utf-8" />
+<style type="text/css">
+#div1{width:100px;height:100px;background:#ff0000;position:absolute;}
+</style>
+<script type="text/javascript">
+window.onload=function(){
+	var oDiv=document.getElementById('div1');
+	var arrowBtns={left:{dir:'left',move:false,speed:-10},right:{dir:'left',move:false,speed:10},top:{dir:'top',move:false,speed:-10},bottom:{dir:'top',move:false,speed:10}};
+	document.onkeydown=function(ev){
+		var oEvent=ev||event;
+		switch(oEvent.keyCode)
+		{
+			case 37:
+				arrowBtns.left.move=true;
+			break;
+			case 38:
+				arrowBtns.top.move=true;
+			break;
+			case 39:
+				arrowBtns.right.move=true;
+			break;
+			case 40:
+				arrowBtns.bottom.move=true;
+			break;
+		}
+	
+	}
+
+	document.onkeyup=function(ev){
+		var oEvent=ev||event;
+		switch(oEvent.keyCode)
+		{
+			case 37:
+				arrowBtns.left.move=false;
+			break;
+			case 38:
+				arrowBtns.top.move=false;
+			break;
+			case 39:
+				arrowBtns.right.move=false;
+			break;
+			case 40:
+				arrowBtns.bottom.move=false;
+			break;
+		}
+	
+	}
+
+	oDiv.timer=setInterval(function(){
+			for(var attr in arrowBtns){
+				var dir = arrowBtns[attr].dir.substring(0,1).toUpperCase()+arrowBtns[attr].dir.substring(1);
+				
+				if(arrowBtns[attr].move)
+				{
+					
+					oDiv.style[arrowBtns[attr].dir]=oDiv['offset'+dir]+arrowBtns[attr].speed+'px'
+				}
+			}
+	},20)
+}
+</script>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+</html>

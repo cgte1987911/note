@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+            margin: 0;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .wrap{
+            width: 100%;
+            height: 100%;
+            background-color: #9933ff;
+            background-image:linear-gradient(135deg,#cc33ff 30%,#bb33ff 40%,#aa33ff 45%,#9933ff 50%,rgba(0,0,0,0) 50%);
+            background-position: 0 -100vh;
+            background-repeat: no-repeat;
+            transition: 1s;
+            overflow: hidden;
+            position: relative;
+        }
+        .menu{
+            padding-top:150px; 
+            transition: 1s;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .menulist{
+            width: 40%;
+        }
+        .menulist li{
+            height: 45px;
+            line-height: 45px;
+            color: #fff;
+            text-indent: 60px;
+            /* border-radius: 0 30% 30% 0; */
+            /* border-radius: 10px 20px 30px 50px / 60px; */
+            border-radius: 0 20px 20px 0 / 0 50% 50% 0;
+            /* 
+                每一个角 对应 两个值 ： x y 
+                10 60 
+                20 60
+                30 60
+                50 60
+            */
+        }
+        .active{
+            background: #ce67ff;
+        }
+        .content{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            
+            transform-origin: 140vw center;
+            transition: 1s;
+            perspective: 800px;
+        }
+        .move{
+            background-position: 0 0;
+        }
+        .move .menu{
+            transform: scale(1.2);
+        }
+        .move .content{
+            transform: scale(0.5);
+        }
+        .box{
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            position: relative;
+            background: #fff;
+        }
+        .page{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            -webkit-overflow-scrolling: touch;
+        }
+         .page:nth-of-type(1){
+             background: red;
+         }
+         .page:nth-of-type(2){
+             background: green;
+             transform: rotateY(180deg);
+         }
+         .page:nth-of-type(3){
+             background: gray;
+             transform: rotateY(180deg);
+         }
+         .page:nth-of-type(4){
+             background: blue;
+             transform: rotateY(180deg);
+         }
+         .pagetxt{
+             width: 100%;
+             height: 90%;
+             overflow: auto;
+         }
+    </style>
+</head>
+<body>
+    <section class="wrap">
+        <section class="menu">
+            <ul class="menulist">
+                <li class="active">首页</li>
+                <li>女装</li>
+                <li>男装</li>
+                <li>童装</li>
+            </ul>
+        </section>
+        <section class="content">
+            <div class="box">
+                <div class="page">
+                    <button>《</button>
+                    <div class="pagetxt">
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        首页的内容</br>
+                        最后一个</br>
+                    </div>
+                </div>
+                <div class="page">
+                    <button>《</button>
+                    <div class="pagetxt">
+                        女装
+                    </div>
+                </div>
+                <div class="page">
+                    <button>《</button>
+                    <div class="pagetxt">
+                        男装
+                    </div>
+                </div>
+                <div class="page">
+                    <button>《</button>
+                    <div class="pagetxt">
+                        童装
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script>
+        
+        
+        var btnAll = document.querySelectorAll('button');
+        var content = document.querySelector('.content');
+        var menu = document.querySelector('.menu');
+        var wrap = document.querySelector('.wrap');
+        var menulist = document.querySelectorAll('.menulist li');
+        var page = document.querySelectorAll('.page');
+        var box = document.querySelector('.box');
+        var now = 0;
+
+        page[now].style.display = 'block';
+
+        btnAll.forEach(item=>{
+           item.addEventListener('touchstart',function(){
+               wrap.classList.add('move');
+           }) 
+        })
+
+        // btn.addEventListener('touchstart',function(){
+        //     wrap.classList.add('move');
+        //     content.style.transform = 'scale(0.5)';
+        //     menu.style.transform = 'scale(1.2)';
+        //     wrap.style.backgroundPosition = '0 0';
+        // })
+
+        menulist.forEach((item,index)=>{
+            item.addEventListener('touchstart',function(){
+                menulist.forEach(item=>{
+                    item.className = '';
+                })
+                this.className = 'active';
+                wrap.classList.remove('move');
+                if(index != now){
+                    box.style.transform = 'rotateY(-180deg)';
+                    box.style.transition = '1s';
+                    page[index].style.display = 'block';
+                    now = index;
+                }
+            })
+        })
+
+        box.addEventListener('transitionend',function(){
+            page.forEach((item,index)=>{
+                if(index != now){
+                    item.style.display = 'none';
+                    item.style.transform = 'rotateY(180deg)';
+                }else{
+                    item.style.transform = 'rotateY(0deg)';
+                    box.style.transition = '0s';
+                    box.style.transform = 'rotateY(0deg)';
+                }
+            })
+        })
+
+
+
+    </script>
+</body>
+</html>

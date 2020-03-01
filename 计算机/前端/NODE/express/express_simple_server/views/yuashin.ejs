@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding:0;}
+        ol{list-style:none;}
+        #wrap{width:470px;height:150px;overflow: hidden;margin:100px auto 0;background:black;position:relative;}
+        #picsWrap{position:absolute;top:0;left:0;}
+        #picsWrap li,#picsWrap img{float:left;width:470px;height:150px;}
+        .tabBtn{width:20px;height:20px;background:red;position:absolute;}
+        #tabBtnL{left:25px;top:65px;}
+        #tabBtnR{right:25px;top:65px;}
+        #picIndex{position:absolute;right:30px;bottom:20px;}
+        #picIndex li{float:left;line-height:20px;width:20px;height:20px;text-align:center;background:#fcf2cf;color:#d94b01;margin-right:5px;cursor:pointer;}
+        #picIndex .active{color:white;background:#ffb442;}
+        li {
+      -moz-user-select:none;
+      -webkit-user-select:none;
+      user-select:none;    
+}
+    </style>
+    <script>
+
+        function getStyle(obj,name){
+            if(obj.currentStyle)
+                return obj.currentStyle[name];
+            else
+                return getComputedStyle(obj,false)[name]
+        }
+
+        function startMove(obj,json,fnEnd)
+        {
+            clearInterval(obj.timer);
+            obj.timer=setInterval(function(){
+                var bStop=true;
+                for(var attr in json){
+                    var cur=0;
+                    if(attr=='opacity')
+                        cur=Math.round(parseFloat(getStyle(obj,attr))*100)
+                    else
+                        cur=parseInt(getStyle(obj,attr));
+                    var speed=(json[attr]-cur)/6;
+                    speed=speed>0?Math.ceil(speed):Math.floor(speed);
+
+                    if(cur!=json[attr])
+                        bStop=false;
+
+                    if('opacity'==attr)
+                    {
+                        obj.style.filter='alpha(opacity:'+(cur+speed)+')';
+                        obj.style.opacity=(cur+speed)/100;
+                    }
+                    else
+                        obj.style[attr]=cur+speed+'px';
+
+                }
+                if(bStop)
+                {
+                    clearInterval(obj.timer);
+                    if(fnEnd)
+                        fnEnd();
+                }
+            },30);
+        }
+    </script>
+    <script>
+        window.onload=function(){
+                                 
+            rolePic('wrap',{auto:true});
+            
+
+        }
+
+
+        function getByClass(parent,className)
+        {
+            var arr=[];
+            var aEle=parent.getElementsByTagName('*');
+            var re=new RegExp('\\b'+className+'\\b')
+            for(var i=0;i<aEle.length;i++)
+            {
+                if(re.test(aEle[i].className))
+                    arr.push(aEle[i]);
+            }
+            return arr
+        }
+        function rolePic(ele,config){
+            oRoleWrap=document.getElementById(ele);
+            oSlidebox=oRoleWrap.getElementsByTagName('ul')[0];
+            var oOl=config.btnIndex?oRoleWrap.getElementsBy

@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        :root {
+            --cF60: #f60;
+            --cfff: #fff;
+        }
+
+        .container {
+            -webkit-perspective: 800;
+            -webkit-perspective-origin: 50% 50%;
+            overflow: hidden
+        }
+
+        .center {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
+            -webkit-transform-style: preserve-3d;
+            position: relative;
+        }
+
+        [class*=page] {
+            width: 360px;
+            height: 360px;
+            line-height: 360px;
+            font-size: 360px;
+            background: #000;
+            color: var(--cfff);
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            -webkit-transform-origin: bottom;
+            -webkit-transform: rotateX(90deg);
+            position: absolute;
+            transition: all 1s linear;
+        }
+
+        .page1 {
+            -webkit-transform: rotateX(0deg)
+        }
+
+        .btn {
+            width: 400px;
+            height: 30px;
+            margin: 14px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn button {
+            background: var(--cF60);
+            border: 0;
+            outline: none;
+            color: var(--cfff);
+            padding: 0 30px;
+            border-radius: 4px;
+            transition: all .3s linear;
+            border: 1px solid transparent;
+        }
+
+        .btn button:hover {
+            background: var(--cfff);
+            color: var(--cF60);
+            border: 1px solid var(--cF60);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="center">
+            <div class="page1">1</div>
+            <div class="page2">2</div>
+            <div class="page3">3</div>
+            <div class="page4">4</div>
+            <div class="page5">5</div>
+        </div>
+    </div>
+    <div class="btn">
+        <button>pre</button>
+        <button>next</button>
+    </div>
+    <script>
+        (() => {
+            let idx = 0;
+            const btnList = document.querySelectorAll('button');
+            const pages = document.querySelectorAll('[class*=page]');
+            btnList[0].onclick = () => {
+                if (idx < pages.length - 1) {
+                    pages[idx].style.webkitTransform = 'rotateX(-90deg)'
+                    idx++;
+                    pages[idx].style.webkitTransform = 'rotateX(0deg)'
+                }
+            }
+            btnList[1].onclick = () => {
+                if (idx > 0) {
+                    pages[idx].style.webkitTransform = 'rotateX(90deg)'
+                    idx--;
+                    pages[idx].style.webkitTransform = 'rotateX(0deg)'
+                }
+            }
+        })()
+    </script>
+</body>
+
+</html>

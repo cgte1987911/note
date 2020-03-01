@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<script>
+		function toChange(ev){
+			//alert(ev.detail);  //↓ 3  ↑ -3
+			//alert(ev.wheelDelta); //↓ -120  ↑ 120
+			var oContent=document.querySelector('ul');
+			if(ev.detail){
+				bBtn = ev.detail > 0 ? true : false;
+			}
+			else{
+				bBtn = ev.wheelDelta < 0 ? true : false;
+			}
+			if(bBtn){  //↓
+				oContent.style.top=(oContent.offsetTop-15)+'px'
+			}
+			else{   //↑
+
+
+				oContent.style.top=(oContent.offsetTop+15)+'px'
+
+			}
+			
+		
+		}
+		document.onmousewheel =function(e){
+			 e.preventDefault(); 
+			 
+			toChange(e);
+		}
+		window.onload=function(){
+			var oContent=document.querySelector('ul');
+			document.querySelector(".content-box").onclick=function(){
+		}
+		
+
+	}
+		
+	</script>
+	<style>
+	*{margin:0;padding:0;}
+	body{height:1500px;margin:0;padding:0;background: red;}
+	.mask{
+		position:absolute;
+		left:0;top;
+		width:100%;
+		height:100%;
+		background:black;
+		opacity:.3;
+	}
+		.content-box{
+			position: absolute;
+			left:50%;
+			top:100px;
+			background:white;
+			margin-left:-300px;
+			width:600px;
+			height:800px;
+			position:relative;
+			overflow: hidden;
+
+	}
+	.content-box ul{
+		position: absolute;
+		left:100px;
+		top:0px;
+		padding: 10px;
+	}
+	</style>
+		<div class="mask"></div>
+		<div class="content-box">
+			<ul>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				<li>888</li>
+				<li>9999</li>
+				<li>aaa</li>
+				<li>bbb</li>
+				<li>cccc</li>
+				<li>dddd</li>
+				<li>eeee</li>
+				<li>ffff</li>
+				<li>gggg</li>
+				<li>hhhh</li>
+				<li>iiii</li>
+				<li>jjjj</li>
+				<li>kkkk</li>
+				<li>llll</li>
+				<li>kkkk</li>
+				<li>llll</li>
+				<li>mmmm</li>
+				<li>888</li>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				<li>888</li>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				<li>888</li>
+				<li>111</li>
+				<li>222</li>
+				<li>333</li>
+				<li>444</li>
+				<li>555</li>
+				<li>666</li>
+				<li>777</li>
+				<li>888</li>
+				
+			</ul>
+		</div>
+</body>
+</html>

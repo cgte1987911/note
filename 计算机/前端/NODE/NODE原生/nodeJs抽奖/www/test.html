@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{padding:0;margin:0;}
+        .panel{width:1067px;height:1100px;background:url('img/chou.png') no-repeat;position:relative;margin:0px auto;}
+        .pointer{width:252px;height:311px;position:absolute;background:url('img/point.png') no-repeat;left:438px;top:355px;transition:3s all ease-in-out;transform-origin:126px 185px;}
+    </style>
+    <script src="ajax.js"></script>
+    <script src="transform.js"></script>
+    <script>
+        function rnd(n,m){
+            return Math.floor((m-n)*Math.random()+n);
+        }
+        var gen=function*(){
+            console.log(111)
+            yield "222";
+            yield "333";
+        }
+        var gener=gen();
+        console.log(gener.next());
+
+        window.onload=function(){
+            var oPointer=document.querySelector('.pointer');
+            oPointer.addEventListener('click',clkFun);
+             function clkFun(){
+                oPointer.removeEventListener('click',clkFun)
+              
+              ajax({
+                  type:'get',
+                  url:'/chouJ',
+                  success:function(data){
+                      console.log(222)
+                     var n=parseInt(data);
+                    
+                     var deg=0;
+                     switch(n){
+                      case 0:
+                          deg=rnd(0,3)*120;
+                          break;
+                      case 1:
+                          deg=-45;
+                          break;
+                      case 2:
+                          deg=45;
+                          break;
+                      case 3:
+                          deg=-180;
+                          break;
+                          
+
+                     }
+                     deg+=rnd(2,4)*360;
+                     css(oPointer,'rotate',deg)
+                     var funEnd=function(){
+                         if(n==0)
+                          alert('恭喜你获取幸运奖')
+                         else
+                          alert('恭喜你获取'+n+"等奖")
+                          oPointer.style.transition='none'
+                          css(oPointer,'rotate',0)
+                          var timer=setInterval(function(){
+                              console.log(css(oPointer,'rotate'))
+                              if( css(oPointer,'rotate')==0){
+                                 
+                                  oPointer.style.transition='3s all ease-in-out';
+                                  clearInterval(timer)
+                                  oPointer.removeEventListener('transitionend',funEnd);
+                                  oPointer.addEventListener('click',clkFun);
+                              }
+                          },30)
+                        
+                        
+                     }
+                     oPointer.addEventListener('transitionend',funEnd)
+
+                    
+                      
+              }})
+
+              
+          }
+        }
+    </script>
+</head>
+<body>
+    <div class="panel">
+        <div class="pointer"></div>
+    </div>
+</body>
+</html>
