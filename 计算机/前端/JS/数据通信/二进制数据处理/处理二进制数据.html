@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+    (async ()=>{
+      let res=await fetch('data/1.png');
+      let data=await res.blob();
+
+      let url=URL.createObjectURL(data);
+
+      let img=document.getElementById('img1');
+      img.src=url;
+    })();
+    </script>
+
+    <img id="img1" />
+  </body>
+</html>
