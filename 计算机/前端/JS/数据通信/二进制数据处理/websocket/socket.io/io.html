@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="http://localhost:8081/socket.io/socket.io.js" charset="utf-8"></script>
+    <script>
+    let socket=io.connect('ws://localhost:8081/');
+
+    // socket.emit(name, ...args);
+    // socket.emit('data1', 12, 5, 8, 'asdfasd');
+
+    socket.on('time', function (timestamp){
+      console.log(timestamp);
+    });
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

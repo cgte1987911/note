@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #txt1 {width:60%;height:400px;display:block;margin:10px auto 0;}
+    </style>
+    <script src="http://localhost:8081/socket.io/socket.io.js" charset="utf-8"></script>
+
+  </head>
+  <body>
+    <textarea id="txt1"></textarea>
+    <script>
+    let socket=io.connect('ws://localhost:8081/');
+    let txt1=document.getElementById('txt1');
+
+    txt1.oninput=function (){
+      socket.emit('change', this.value);
+    };
+
+    socket.on('change', function (str){
+      txt1.value=str;
+    });
+    </script>
+  </body>
+</html>

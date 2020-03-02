@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <script>
+    class Socket{
+      constructor(url){
+        let socket=this._socket=new WebSocket(url);
+
+        this.end=false;
+
+        socket.onopen=function (){
+          console.log('连上了');
+
+          socket.send('aaa');
+        };
+        socket.onclose=()=>{
+          console.log('断开了');
+
+          this._reject();
+
+          this.end=true;
+        };
+        socket.onerror=()=>{
+          console.log('错了');
+
+          this._reject();
+
+          this.end=true;
+        };
+        socket.onmessage=(data)=>{
+          // console.log('数据来了...');
+          this._resolve(data);
+        };
+      }
+
+      getMsg(){
+        return new Promise((resolve, reject)=>{
+          this._resolve=resolve;
+          this._reject=reject;
+        });
+      }
+    }
+
+    (async ()=>{
+      let socket=new Socket('ws://localhost:8080/');
+
+      while(!socket.end){
+        let aaa=await socket.getMsg();
+
+        console.log(aaa);
+      }
+    })();
+
+    </script>
+  </body>
+</html>
