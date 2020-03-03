@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #c1 {display:block;border:1px solid black;margin:10px auto 0;}
+    </style>
+  </head>
+  <body>
+    <canvas id="c1" width="800" height="600"></canvas>
+    <script>
+    let oC=document.getElementById('c1');
+    let gd=oC.getContext('2d');
+
+    gd.strokeRect(100, 100, 200, 150);
+
+    oC.onclick=function (ev){
+      let x=ev.offsetX, y=ev.offsetY;
+
+      if(x>=100 && x<=300 && y>=100 && y<=250){
+        alert('a');
+      }
+    }
+    </script>
+  </body>
+</html>

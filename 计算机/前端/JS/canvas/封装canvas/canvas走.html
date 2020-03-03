@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #c1 {display:block;border:1px solid black;margin:10px auto 0;}
+    </style>
+  </head>
+  <body>
+    <canvas id="c1" width="800" height="600"></canvas>
+    <script>
+    let oC=document.getElementById('c1');
+    let gd=oC.getContext('2d');
+    let x=100;
+
+    setInterval(function (){
+      gd.clearRect(0, 0, oC.width, oC.height);
+
+      x+=5;
+      gd.strokeRect(x, 100, 200, 150);
+    }, 1000/60);
+    </script>
+  </body>
+</html>

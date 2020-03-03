@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #c1 {display:block;border:1px solid black;margin:10px auto 0;}
+    </style>
+    <script src="js/common.js" charset="utf-8"></script>
+    <script src="js/sprite.js" charset="utf-8"></script>
+    <script src="js/rect.js" charset="utf-8"></script>
+    <script src="js/canvas.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <canvas id="c1" width="800" height="600"></canvas>
+    <script>
+    let oC=document.getElementById('c1');
+    let canvas=new Canvas(oC);
+
+    let r=new Rect(400, 300);
+    canvas.addChild(r);
+
+
+    setInterval(function (){
+      r.x+=5;
+
+      canvas.render();
+    }, 1000/60);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    #c1 {display:block;border:1px solid black;margin:10px auto 0;}
+    </style>
+  </head>
+  <body>
+    <canvas id="c1" width="800" height="600"></canvas>
+    <script>
+    let oC=document.getElementById('c1');
+    let gd=oC.getContext('2d');
+
+    let img=new Image();
+    img.onload=function (){
+      gd.drawImage(img, 0, 0);
+    };
+    img.src='a.png';
+    </script>
+  </body>
+</html>
