@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/animate.js" charset="utf-8"></script>
+    <script src="js/shapes/shape.js" charset="utf-8"></script>
+    <script src="js/shapes/line.js" charset="utf-8"></script>
+    <script src="js/shapes/pie.js" charset="utf-8"></script>
+    <script src="js/svg.js" charset="utf-8"></script>
+    <style media="screen">
+    #svg1 {display:block;}
+    </style>
+  </head>
+  <body>
+    <button type="button" id="btn1">变化</button>
+    <button type="button" id="btn2">截图</button>
+    <svg id="svg1" width="800" height="600"></svg>
+    <script>
+    let svg=new Svg(document.querySelector('#svg1'));
+    let l=svg.line(100, 100, 200, 200);
+    l.stroke='black';
+    l.strokeWidth=1;
+
+    let btn1=document.querySelector('#btn1');
+    btn1.onclick=function (){
+      l.animate({
+        x1: 500,
+        'stroke-width': 20
+      }, {time: 5000});
+    };
+
+
+    let btn2=document.querySelector('#btn2');
+    btn2.onclick=function (){
+      let canvas=svg.toCanvas();
+      let base64=canvas.toDataURL();
+
+      console.log(base64);
+
+      // document.body.appendChild(canvas);
+    };
+    </script>
+  </body>
+</html>
