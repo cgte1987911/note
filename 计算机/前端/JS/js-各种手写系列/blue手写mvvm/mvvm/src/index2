@@ -1,0 +1,69 @@
+import Vue from './vue';
+import {Store} from './vuex';
+
+Vue.component('cmp1', {
+  data(){
+    return {
+      a: 99
+    };
+  },
+  methods: {
+    fn(){
+      this.a++;
+    }
+  },
+  template: `
+    <div>
+      <button type="button" @click="fn">aaa</button>
+      {{a}}
+      a={{$store.state.a}}
+    </div>
+  `
+});
+
+Vue.component('cmp2', {
+  template: `
+    <div>
+      <button type="button" @click="fn">按钮</button>
+    </div>
+  `,
+  methods: {
+    fn(){
+      this.$store.dispatch('setA', 88);
+    }
+  }
+});
+
+//
+let store=new Store({
+  strict: true,
+  state: {
+    a: 12, b: 5
+  },
+  mutations: {
+    setA(state, a){
+      state.a=a;
+    }
+  },
+  actions: {
+    setA(store, a){
+      store.commit('setA', a);
+    }
+  }
+});
+window.store=store;
+
+
+
+
+
+
+
+
+window.vm=new Vue({
+  el: '#root',
+  data: {
+    a: 12,
+  },
+  store
+});

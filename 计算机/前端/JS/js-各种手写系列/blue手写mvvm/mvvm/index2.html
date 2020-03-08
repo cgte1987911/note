@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>智能社vue的测试页面</title>
+    <style media="screen">
+    *[v-cloak] {display:none}
+    .box {margin:10px;border:1px solid black;}
+    </style>
+  </head>
+  <body>
+    <div id="root" v-cloak>
+      <router-link to="/a">页面1</router-link>
+      <router-link to="/b">页面2</router-link>
+      <router-link to="/c">页面3</router-link>
+
+      {{$route.meta && $route.meta.name}}
+
+      <router-view></router-view>
+      <div class="">
+        <router-view></router-view>
+      </div>
+      <router-view></router-view>
+    </div>
+
+
+
+    <script src="/bundle.js" charset="utf-8"></script>
+  </body>
+</html>
