@@ -217,19 +217,19 @@
    * ```
        >Switch to unix_socket authentication
         Y
-     
+       
        >Change the root password?
         随便
-     
+       
        >Remove anonymous users?
         Y
-     
+       
        >Disallow root login remotely?
         Y
        
        >Remove test database and access to it?
         Y
-     
+       
        >Reload privilege tables now?
         Y
      ```
@@ -240,6 +240,223 @@
 
    * 使用winscp软件传输文件
    * `mysql meituan -uroot < /root/meituan.sql`
+
+
+
+### 九、配置redis集群
+
+1. 克隆3台以上配置的原型机，然后修改ip(以131、132、133为例)
+
+2. 在131机器上新建redis配置文件vim redis.conf（名字随意）
+
+   * ```properties
+     port 7000
+     
+     #关闭保护模式——不带密码启动
+     protected-mode no
+     
+     #集群特性启用
+     cluster-enabled yes
+     
+     #存储节点信息配置文件——所有节点会互相同步
+     cluster-config-flie nodes.conf
+     
+     #存活时间——超过5s没有心跳自动删除节点并广播
+     cluster-node-timeout 5000
+     
+     appendonly yes
+     
+     ```
+
+3. `ps -ef|grep redis`   查看有没有redis进程开着有就用`kill -9 进程号`杀掉此进程
+
+4. `redis-server ./redis.conf`就能通过新创建的配置文件来启动redis
+
+5. 通过自动化脚本配置redis集群
+
+   * 让ssh不需要密码：
+
+     * `ssh-keygen`后面选项都直接回车
+     * 所有和ssh相关的文件在`/root/.ssh/下
+     * 分发公钥：
+       * ssh-copy-id root@192.168.117.131
+       * ssh-copy-id root@192.168.117.132
+       * ssh-copy-id root@192.168.117.133
+
+   * 在根目录下新建如下两个bash脚本：
+
+     * redis.sh
+
+       ```bash
+       #!/usr/bin/env bash
+       
+       #在主控节点执行
+       if [ ! $1 ]
+       then
+         echo 'command:' $0 '[cmd]'
+         exit
+       fi
+       
+       cmd=$1;
+       
+       if [ $cmd == 'initall' ]
+       then
+         for item in `cat server_list.txt`
+         do
+           echo init $item;
+           scp redis_sh.sh root@$item:/root/;
+       
+           ssh root@$item '/root/redis_sh.sh init 7000';
+           ssh root@$item '/root/redis_sh.sh init 7001';
+         done
+       
+       elif [ $cmd == 'startall' ]
+       then
+         for item in `cat server_list.txt`
+         do
+           echo start $item;
+       
+           ssh root@$item '/root/redis_sh.sh start 7000';
+           ssh root@$item '/root/redis_sh.sh start 7001';
+         done
+       
+       elif [ $cmd == 'ps' ]
+       then
+         for item in `cat server_list.txt`
+         do
+           echo $item;
+       
+           ssh root@$item 'ps -ef | grep [r]edis';
+         done
+       
+       
+       elif [ $cmd == 'stopall' ]
+       then
+         for item in `cat server_list.txt`
+         do
+           echo stopall $item;
+       
+           ssh root@$item '/root/redis_sh.sh stopall';
+         done
+       
+       elif [ $cmd == 'create' ]
+       then
+         servers=''
+       
+         for item in `cat server_list.txt`
+         do
+           servers+=$item:7000' ';
+           servers+=$item:7001' ';
+         done
+       
+         redis-cli --cluster create $servers --cluster-replicas 1
+       
+       elif [ $cmd == 'restartall' ]
+       then
+         $0 stopall
+         $0 startall
+       
+       else
+         echo no this command: $1
+       
+       fi
+       
+       ```
+
+     * redis_sh.sh
+
+       ```bash
+       #!/usr/bin/env bash
+       
+       #在集群节点上执行
+       root='/etc/redis';
+       
+       if [ ! $1 ]
+       then
+         echo 'command:' $0 '[cmd] [port]'
+         exit
+       fi
+       
+       cmd=$1;
+       port=$2;
+       
+       conf_file=$root/$port/redis.conf;
+       
+       if [ $cmd == 'init' ]
+       then
+         if [ ! $2 ]
+         then
+           echo 'command:' $0 'init [port]'
+           exit
+         fi
+       
+         #
+         rm -rf $root/$port;
+         mkdir -p $root/$port;
+       
+         # create the conf
+         echo port $port >> $conf_file;
+         echo 'protected-mode no' >> $conf_file;
+         echo 'cluster-enabled yes' >> $conf_file;
+         echo 'cluster-config-file nodes.conf' >> $conf_file;
+         echo 'cluster-node-timeout 5000' >> $conf_file;
+         echo 'appendonly yes' >> $conf_file;
+       
+         echo 'init redis server @'$port 'success';
+       
+       elif [ $cmd == 'start' ]
+       then
+         if [ ! $2 ]
+         then
+           echo 'command:' $0 'start [port]'
+           exit
+         fi
+       
+         # set pwd
+         cd $root/$port/
+       
+         # start server
+         redis-server $conf_file 2>error.log 1>output.log & echo server @$port started;
+       
+         # firewall
+         firewall-cmd --add-port=$port/tcp --permanent 2>1 > /dev/null;
+         firewall-cmd --add-port=$((port+10000))/tcp --permanent 2>1 > /dev/null;
+         firewall-cmd --reload 2>1 > /dev/null;
+       
+       elif [ $cmd == 'stopall' ]
+       then
+         # kill all redis-server
+         pkill -e redis-server
+       
+       else
+         echo no this command: $1
+       
+       fi
+       
+       ```
+
+   * `chmod +x redis.sh redis_sh.sh`
+
+   * vim server_list.txt
+
+     ```
+     192.168.117.131
+     192.168.117.132
+     192.168.117.133
+     ```
+
+   * `./redis.sh initall`
+
+   * `./redis.sh startall`
+
+   * `./redis.sh create`
+
+   * `redis-cli -c -h 192.168.117.131 -p 7000`可以用集群的方式登录redis服务操作数据：
+
+     * set name 'ltf'
+     * get name
+
+   
 
 
 
