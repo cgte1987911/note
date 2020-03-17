@@ -33,3 +33,34 @@ process.argv 属性返回一个数组，这个数组包含了启动Node.js进程
 console.log(process.argv[0])   // 打印 C:\Program Files\nodejs\node.exe
 console.log(process.argv[1])   // 打印 C:\Users\hongf\Desktop\testallin\test.js
 console.log(process.argv[2])   // 打印 web-runtime-cjs,web-server-renderer
+
+
+
+### 知识点
+
+1.进程使用示例：
+
+```js
+const cluster=require('cluster');
+
+if(cluster.isMaster){
+  for(let i=0;i<2;i++){
+    let worker=cluster.fork();
+
+    worker.on('disconnect', ()=>{
+      console.log('断了');
+    });
+
+    worker.send({index: i});
+  }
+
+  console.log('主进程');
+}else{
+  console.log('子进程');
+
+  process.on('message', function (json){
+    console.log(json);
+  });
+}
+```
+

@@ -38,7 +38,7 @@ SELECT_PERMISSION_BY_USERID = \
 
 
 
-三、备份  mysqldump
+### 三、备份  mysqldump
 
 * mysqldump 表名 -u用户 -p
 
@@ -82,22 +82,61 @@ SELECT_PERMISSION_BY_USERID = \
   * 恢复meituan数据库
 
     * mysqldump meituan -uroot >./a.txt
-
     * `drop database meituan`
     * create database meituan
     * mysql -uroot meituan >a.sql
 
-  
+
+
+### 四、事务处理
+
+1. node示例
+
+   ```js
+   const mysql=require('promise-mysql');
+   
+   (async ()=>{
+     //1.连接数据库
+     let db=await mysql.createPool({
+       host: 'localhost',
+       user: 'root',
+       password: '123456',
+       database: 'meituan'
+     });
+   
+     //2.启动事务
+     await db.query('SET autocommit=0;');
+     await db.query('START TRANSACTION;');
+   
+     //3.操作
+     try{
+       await db.query('UPDATE banner_table SET title=? WHERE ID=?', ['12', '396da7aa468c48fe98d44f30115b042f']);
+       await db.query('UPDATE banner_tble SET title=? WHERE ID=?', ['15', '396da7aa468c48fe98d44f30115b042f']);
+   
+       await db.query('COMMIT;');
+     }catch(e){
+       await db.query('ROLLBACK;');
+     }
+   
+     //4.rollback、commit
+   
+   
+     console.log('完成');
+   })();
+   
+   ```
+
+   
+
+
+
+
+
+
 
   
 
-  
 
-  
-
-  四、
-
-  
 
 
 
