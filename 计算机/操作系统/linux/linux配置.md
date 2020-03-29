@@ -45,7 +45,7 @@
     * NETMASK=255.255.255.0
     * GATEWAY=192.168.117.2
 
-	3. 修改nds:
+	3. 修改dns:
 
     * 可以修改vi /etc/resolve.conf
       * nameserver <网关>
@@ -67,7 +67,7 @@
    module_hotfixes=true
    ```
 
-2. `vi  /etc/yum.repos.d/nginx.repo`输入以上repo
+2. `vim  /etc/yum.repos.d/nginx.repo`输入以上repo
 
 3. `yum install nginx`
 
@@ -115,8 +115,18 @@
 
      `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
 
-   * 使用nvm安装node相应版本
+     如果报错：Failed to connect to raw.githubusercontent.com port 443: Connection refused
 
+     就去https://www.ipaddress.com/查询raw.githubusercontent.com的真实IP
+   
+     `vim /etc/hosts`
+   
+     ```
+     199.232.28.133 raw.githubusercontent.com   //改成查询到的ip
+     ```
+   
+   * 使用nvm安装node相应版本
+   
      *  nvm install 12
      * nvm use 12
 
